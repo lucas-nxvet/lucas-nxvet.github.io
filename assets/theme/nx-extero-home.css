@@ -1,0 +1,343 @@
+/* Extero homepage (sections/nx-extero-home.liquid): the hero, "Clips on.", "Your device at a glance." and the Extero-only sections.
+   Scoped to .nxx. Loads after nx-home.css (shared buttons, reveal, pricing, FAQ, closing) and nx-extero-theme.css.
+   Accent: the NxVET cyan only (--cyan from nx-home.css), as on the buttons; the device's lights show cyan in the hero too (review with Gerard,
+   2026-11-03). The LED blues below are only for the callouts that show a real LED state. The rules below are written dark; .nxx-light (always on in the markup) turns them into the light look (end of file).
+   Motion: only opacity and transform move; no filter or mask is animated and nothing repaints per frame. The one scroll-driven,
+   sticky piece is the hero to Clips on zoom (desktop only, see "Hero to Clips on").
+   The hero is hidden from the first paint (nxx-pre in the markup) and revealed by JS at once (no loader since 2026-11-11); a CSS safety net reveals it without JS. */
+.nxx{--k:#050608;--k2:#0b1018;--led:#2f7bff;--led-2:#5aa8ff;--ice:#eaf3ff;--fg:#f4f6f7;--fg-2:#aeb8c4;--line-d:rgba(255,255,255,.1);--teal:#00496a;--ac:var(--cyan,#37c2d6);--ac-soft:rgba(55,194,214,.18)}
+.nxx .nxx-dark{background:var(--k);color:var(--fg)}
+.nxx .nxx-dark h2,.nxx .nxx-dark h3{color:var(--fg)}
+.nxx .nxx-dark p{color:var(--fg-2)}
+
+@keyframes nxx-fade{to{opacity:1}}
+
+/* ---------- Hero: copy and the navbar's two CTAs at the left, the vet wearing Extero at the right (its real scale) ---------- */
+.nxx-hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:calc(var(--nxh-top,0px) + 128px) 0 96px;background:var(--k);color:var(--fg);overflow:hidden;isolation:isolate}
+.nxx-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(60% 50% at 12% 110%,rgba(0,73,106,.38),transparent 70%),var(--k)}
+.nxx-bg::after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;-webkit-mask-image:radial-gradient(60% 60% at 60% 50%,#000 10%,transparent 75%);mask-image:radial-gradient(60% 60% at 60% 50%,#000 10%,transparent 75%)}
+.nxx-hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:32px}
+.nxx-hero-inner{max-width:680px}
+/* Two lines, never three (Lucas, 2026-11-11): each line stays whole and the size follows the column; line 1 is about 9.9 em wide, so 9.6cqi fills about 95% of it */
+.nxx-hero-inner{container-type:inline-size}
+.nxx-hero h1{margin:0 0 20px;font-size:min(72px,9.6cqi);line-height:.98;letter-spacing:-.045em;color:var(--fg);white-space:nowrap}
+.nxx .nxx-hero h1 span{color:var(--ac);white-space:nowrap}   /* "for hands-on teams." stays on one line (Lucas, 2026-11-03) */
+/* Launch tag above the H1 (Lucas, 2026-11-11): cyan only, small corners (no pill), a live dot that breathes */
+.nxx .nxx-launch{display:inline-flex;align-items:center;gap:9px;margin:0 0 18px;padding:7px 12px 7px 10px;border:1px solid rgba(55,194,214,.45);border-radius:8px;background:rgba(55,194,214,.12);color:var(--fg);font-size:14px;font-weight:800;letter-spacing:.02em;line-height:1.2;max-width:none}
+.nxx .nxx-launch i{position:relative;width:8px;height:8px;border-radius:50%;background:var(--ac);flex:none}
+.nxx .nxx-launch i::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--ac);opacity:.6}
+@media (prefers-reduced-motion:no-preference){.nxx .nxx-launch i::after{animation:nxx-launch 2s ease-out infinite}}
+@keyframes nxx-launch{0%{transform:scale(1);opacity:.6}80%,100%{transform:scale(2.6);opacity:0}}
+@media (max-width:760px){.nxx .nxx-launch{font-size:12px;margin-bottom:12px;padding:6px 10px 6px 9px}}
+.nxx-hero .nxh-lead{color:var(--fg-2);max-width:27em;margin-bottom:28px}
+.nxx-hero .nxh-lead strong{color:var(--fg)}
+.nxx-hero .nxh-btn-outline-light{color:var(--fg);border-color:rgba(255,255,255,.35)}
+.nxx-hero .nxh-hero-trust{color:var(--fg-2);font-weight:700}
+.nxx-hero .nxh-hero-trust li::before{background-color:var(--ac-soft)}
+/* Hidden from the first paint (nxx-pre is in the markup) and revealed by JS; without JS they rise on their own after .6 s */
+.nxx-pre .nxx-hero-inner>*,.nxx-pre .nxx-hero-media{opacity:0;animation:nxx-rise-late 1s var(--ease) .6s both}
+.nxx-hero.is-in .nxx-hero-inner>*{animation:nxx-rise .7s var(--ease) both}   /* quicker first screen (review notes, 2026-11-11) */
+.nxx-hero.is-in .nxx-hero-inner>:nth-child(2){animation-delay:.06s}
+.nxx-hero.is-in .nxx-hero-inner>:nth-child(3){animation-delay:.12s}
+.nxx-hero.is-in .nxx-hero-inner>:nth-child(4){animation-delay:.18s}
+.nxx-hero.is-in .nxx-hero-inner>:nth-child(5){animation-delay:.24s}
+.nxx-hero.is-in .nxx-hero-media{animation:nxx-rise .8s var(--ease) .12s both}
+@keyframes nxx-rise{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@keyframes nxx-rise-late{from{opacity:0;transform:translate3d(0,26px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+.nxx-hero-media{position:relative;display:flex;justify-content:flex-end;align-items:center}
+.nxx-cue{position:absolute;left:50%;bottom:26px;z-index:3;width:26px;height:42px;margin-left:-13px;border:2px solid rgba(255,255,255,.3);border-radius:14px;opacity:0;transition:opacity .6s ease .9s}
+.nxx-hero.is-in .nxx-cue{opacity:1}
+.nxx-cue span{position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--ac);animation:cue 1.8s ease-in-out infinite}
+.nxx-cue b{position:absolute;top:50%;left:38px;transform:translateY(-50%);white-space:nowrap;font-size:13px;font-weight:700;color:var(--fg-2)}
+
+/* The device picture: a box with the picture, plus the LED ring as masked copies of the same picture (nx-extero-led-mask.png is its LED pixels only), recoloured per state. A dark copy sits underneath, so dimming the coloured one never shows the original blue. */
+.nxx-device{position:relative;flex:none;width:var(--dw,260px);aspect-ratio:760/1201}
+@keyframes nxx-bob{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-8px,0)}}
+.nxx-device-img{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block}
+/* The unlit LEDs: the photo's own LED pixels darkened (nx-extero-led-mask.png) */
+.nxx-led-base{position:absolute;inset:0;-webkit-mask:var(--nxx-led-mask) center/100% 100% no-repeat;mask:var(--nxx-led-mask) center/100% 100% no-repeat;pointer-events:none;background:var(--nxx-device) center/100% 100% no-repeat;filter:brightness(.1)}
+/* LED capsules (2026-11-06, replacing the recoloured photo pixels and the rotating wedge): eight vector pills, each a blurred halo,
+   a body and a near-white core, so they stay sharp at any size and glow like light rather than a tinted picture. A state sets the
+   colour (--lc body and halo, --lk core) and how the pills light: all steady, all breathing, a spinning sweep (see .nxx-sweep) or the volume level (six of eight, white). */
+.nxx-leds{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+/* Under the capsules: the photo's blue bloom covered in the face colour, then each LED unlit (dark, a faint rim) */
+.nxx-unlit .s{fill:#2b2b2e;opacity:.94;filter:url(#nxx-led-shroud)}
+.nxx-unlit .o{fill:#111113;stroke:rgba(255,255,255,.07);stroke-width:2;filter:url(#nxx-led-soft)}
+.nxx-pill{opacity:0;transition:opacity .35s ease}
+.nxx-pill .h{fill:var(--lc);opacity:.7;filter:url(#nxx-led-halo)}
+.nxx-pill .b{fill:var(--lc);filter:url(#nxx-led-soft)}
+.nxx-pill .k{fill:var(--lk);opacity:.95;filter:url(#nxx-led-core)}
+.nxx-device{--lc:#3b8cff;--lk:#dbe9ff}
+@keyframes nxx-breathe{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes nxx-pulse2{0%,100%{opacity:1}20%{opacity:.2}40%{opacity:1}60%{opacity:.2}80%{opacity:1}}
+/* Recording and booting: a soft comet of light spins round the ring and shows only through the capsules (masks), so the light
+   flows continuously through each pill instead of pills switching one by one (Lucas 2026-11-06). Spin paused while not shown. */
+.nxx-sweep{opacity:0;transition:opacity .35s ease}
+.nxx-sweep .h{fill:var(--lc);opacity:.7}
+.nxx-sweep .b{fill:var(--lc)}
+.nxx-sweep .k{fill:var(--lk);opacity:.95}
+.nxx-sweep use{transform-box:view-box;transform-origin:273.1px 624.2px;animation:nxx-spin 1.9s linear infinite paused}
+@keyframes nxx-spin{to{transform:rotate(360deg)}}
+.nxx-device[data-led=blue]{--lc:#3b8cff;--lk:#dbe9ff}
+.nxx-device[data-led=blue] .nxx-pill{opacity:1;animation:nxx-breathe 3.4s ease-in-out infinite}
+.nxx-device[data-led=cyan]{--lc:#37c2d6;--lk:#e3fbff}
+.nxx-device[data-led=cyan] .nxx-pill{opacity:1;animation:nxx-breathe 1.6s ease-in-out infinite}
+.nxx-device[data-led=pair]{--lc:#3b8cff;--lk:#dbe9ff}
+.nxx-device[data-led=pair] .nxx-pill{opacity:1;animation:nxx-pulse2 1.6s ease-in-out infinite}
+.nxx-device[data-led=red]{--lc:#ff3b3b;--lk:#ffe0e0}
+.nxx-device[data-led=red] .nxx-pill{opacity:1;animation:nxx-breathe 2.6s ease-in-out infinite}
+.nxx-device[data-led=green]{--lc:#2fdc78;--lk:#e2ffee}
+.nxx-device[data-led=green] .nxx-pill{opacity:1}
+.nxx-device[data-led=rec]{--lc:#2fdc78;--lk:#e2ffee}
+.nxx-device:is([data-led=rec],[data-led=boot]) .nxx-pill{opacity:.12}
+.nxx-device:is([data-led=rec],[data-led=boot]) .nxx-sweep{opacity:1}
+.nxx-device:is([data-led=rec],[data-led=boot]) .nxx-sweep use{animation-play-state:running}
+.nxx-device[data-led=boot]{--lc:#4fdcf0;--lk:#e6fcff}
+.nxx-device[data-led=boot] .nxx-sweep use{animation-duration:1.4s}
+.nxx-device[data-led=white]{--lc:#f4f6f7;--lk:#ffffff}
+.nxx-device[data-led=white] .nxx-pill{opacity:1}
+.nxx-device[data-led=white] .nxx-pill:nth-of-type(n+8){opacity:0}
+/* The device on its way in from the hero: cyan, breathing slowly (the callouts' cyan state breathes faster, as a reply playing) */
+.nxx-glance-stage:not(.is-c) .nxx-device[data-led=cyan] .nxx-pill{animation-duration:3.4s}
+
+/* The card is 4:5; the ripple sits on the device in the photo (46.4% / 33.6% of the full picture, shown with object-position 50% 34%). Recompute --px/--py if the ratio changes. */
+.nxx-scene{position:relative;margin:0;width:min(100%,calc(64svh * .8),440px);aspect-ratio:4/5;border-radius:28px;overflow:hidden;box-shadow:0 40px 120px -30px rgba(0,0,0,.85);background:#101418;--px:46.4%;--py:33.5%}
+.nxx-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%}
+.nxx-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,6,8,0) 55%,rgba(5,6,8,.5) 100%);pointer-events:none}
+.nxx-pulse{position:absolute;left:var(--px);top:var(--py);width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:2px solid var(--ac);opacity:0;pointer-events:none;will-change:transform,opacity}
+.nxx-hero.is-in .nxx-pulse{animation:nxx-ripple 2.4s ease-out 1.2s infinite}
+.nxx-hero.is-in .nxx-pulse:nth-of-type(2){animation-delay:2s}
+.nxx-hero.is-in .nxx-pulse:nth-of-type(3){animation-delay:2.8s}
+@keyframes nxx-ripple{0%{transform:scale(1);opacity:.9}100%{transform:scale(8);opacity:0}}
+
+/* ---------- Hero to the glance: one pinned stage on desktop (nxx-duo-on, set by JS; never on phones, with reduced motion or without JS) ----------
+   The hero and "Your device at a glance." lie on top of each other inside a sticky 100svh frame; the extra height of .nxx-duo is
+   the scroll run. JS scrubs only transform and opacity: the photo zooms in around the device on the vet's scrubs (its
+   transform-origin) and fades out early, straight into the backdrop; the glance device (.nxx-fly) appears on that spot at the
+   same size and grows to its place; the hero copy fades up and the glance heading rises in; the callouts come in once it has
+   landed (is-landed). The glance sits above the hero so the device shows over the zooming photo. will-change is on only while it
+   moves (is-scrub), so everything is redrawn sharp once it settles. */
+.nxx-fly{position:relative;flex:none;transform-origin:0 0}
+.nxx.nxx-duo-on .nxx-duo{position:relative;height:calc(100vh + 90vh);height:calc(100svh + 90svh)}
+.nxx.nxx-duo-on .nxx-duo-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:var(--k)}
+.nxx.nxx-duo-on .nxx-hero,.nxx.nxx-duo-on .nxx-glance{position:absolute;inset:0;min-height:0;height:100%;background:transparent}
+.nxx.nxx-duo-on .nxx-hero{z-index:1}
+.nxx.nxx-duo-on .nxx-glance{z-index:2;pointer-events:none;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--nxh-top,0px) + 92px) 0 20px}
+.nxx.nxx-duo-on.is-swap .nxx-hero{pointer-events:none}
+.nxx.nxx-duo-on.is-swap .nxx-glance{pointer-events:auto}
+.nxx.nxx-duo-on .nxx-bg{background:radial-gradient(60% 50% at 12% 110%,rgba(0,73,106,.38),transparent 70%)}
+.nxx.nxx-duo-on .nxx-glance .nxh-reveal{transition:none}
+.nxx.nxx-duo-on .nxx-glance-head{margin-bottom:clamp(20px,3.5vh,48px)}
+/* Heading, device and card must fit the frame under the header: the device takes what is left (about 340px tall at 768px) */
+.nxx.nxx-duo-on .nxx-glance .nxx-device{--dw:min(23vw,calc((100svh - 430px) * .633),290px)}
+.nxx.nxx-duo-on .nxx-hscard{margin-top:clamp(16px,3vh,40px)}
+.nxx.nxx-duo-on:not(.is-landed) .nxx-hs,.nxx.nxx-duo-on:not(.is-landed) .nxx-lines,.nxx.nxx-duo-on:not(.is-landed) .nxx-hscard{opacity:0;visibility:hidden}
+.nxx.nxx-duo-on.is-moved .nxx-cue{opacity:0;transition:opacity .3s ease}
+.nxx.nxx-duo-on.is-moved .nxx-pulse{animation:none;opacity:0}
+/* The photo keeps its own layer for as long as the stage runs, so going back up never waits for it to be redrawn (2026-11-06) */
+.nxx.nxx-duo-on .nxx-scene{will-change:transform,opacity}
+.nxx.nxx-duo-on.is-scrub .nxx-fly,.nxx.nxx-duo-on.is-scrub .nxx-hero-inner,.nxx.nxx-duo-on.is-scrub .nxx-glance-head,.nxx.nxx-duo-on.is-scrub .nxx-bg{will-change:transform,opacity}
+
+/* ---------- Your device at a glance: the end of the pinned stage on desktop, a plain section elsewhere; the callouts reveal once the device is in place, hover one and the others fade ---------- */
+.nxx-glance{position:relative;padding:clamp(96px,13vh,150px) 0;background:var(--k);color:var(--fg);overflow:hidden}
+.nxx-glance-head{text-align:center;max-width:680px;margin:0 auto 64px}
+.nxx-glance-head h2{margin:0 0 10px;font-size:clamp(30px,3.6vw,48px);line-height:1.05;letter-spacing:-.03em;color:var(--fg);text-wrap:balance}
+.nxx-glance-head p{margin:0;font-size:16px;line-height:1.5;color:var(--fg-2)}
+.nxx-glance-head a{color:var(--fg);font-weight:700;text-decoration:underline;text-decoration-color:var(--ac);text-underline-offset:4px}
+.nxx-glance-head a:hover{color:var(--ac)}
+.nxx-glance-stage{position:relative;display:flex;justify-content:center;padding:12px 0 0}
+.nxx-glance-stage::before{content:"";position:absolute;left:50%;top:50%;width:min(80vmin,720px);height:min(80vmin,720px);transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(55,194,214,.16) 0%,rgba(55,194,214,.05) 40%,transparent 66%);pointer-events:none;opacity:var(--nxx-glow,1)}
+.nxx-glance .nxx-device{--dw:min(23vw,calc(52svh * .633),290px)}
+.nxx-lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.nxx-lines line{stroke:var(--ac);stroke-width:1.5;stroke-linecap:round;opacity:.75;transition:stroke-dashoffset .7s var(--ease),opacity .35s var(--ease)}
+.nxx-hs{position:absolute;inset:0;margin:0;padding:0;border:0;background:none;color:var(--fg);font:inherit;text-align:left;cursor:pointer;pointer-events:none;transition:opacity .35s var(--ease)}
+.nxx-hs i{position:absolute;left:calc(var(--x)*1%);top:calc(var(--y)*1%);width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;border:2px solid var(--ac);background:rgba(55,194,214,.2);opacity:0;transform:scale(.4);pointer-events:auto;transition:opacity .45s var(--ease),transform .55s var(--ease),background .3s;transition-delay:calc(var(--i,0)*.1s)}
+.nxx-hs i::before{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--ac);opacity:0}
+.nxx-hs i::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--ice)}
+.nxx-hs span{position:absolute;top:calc(var(--ly)*1%);display:block;width:max-content;max-width:230px;padding:8px 12px;border-radius:12px;background:rgba(10,14,22,.9);border:1px solid rgba(255,255,255,.1);font-size:13.5px;line-height:1.35;color:var(--fg-2);opacity:0;transform:translate3d(-8px,-50%,0);pointer-events:auto;transition:opacity .5s var(--ease),transform .6s var(--ease),border-color .3s,color .3s,background .3s;transition-delay:calc(var(--i,0)*.1s + .35s)}
+.nxx-hs[data-side=left] span{right:calc((100 - var(--lx))*1%);transform:translate3d(8px,-50%,0)}
+.nxx-hs[data-side=right] span{left:calc(var(--lx)*1%)}
+.nxx-glance-stage.is-c .nxx-hs i{opacity:1;transform:scale(1)}
+.nxx-glance-stage.is-c .nxx-hs span{opacity:1;transform:translate3d(0,-50%,0)}
+.nxx-hs span strong{display:block;font-size:15px;color:var(--fg)}
+.nxx-hs.is-on i{background:var(--ac)}
+.nxx-hs.is-on i::before{animation:nxx-dot 1.5s ease-out infinite}
+.nxx-hs.is-on span{border-color:var(--ac);color:var(--fg);background:rgba(16,24,40,.94)}
+.nxx-hs:hover span{border-color:rgba(55,194,214,.6)}
+.nxx-hs:focus-visible{outline:none}
+.nxx-hs:focus-visible i{box-shadow:0 0 0 4px rgba(55,194,214,.5)}
+@keyframes nxx-dot{0%{opacity:.7;transform:scale(1)}100%{opacity:0;transform:scale(2.4)}}
+/* Short screens: the device is small, so the labels show their title only (the card below has the full text) and stay apart */
+@media (min-width:761px) and (max-height:700px){
+  .nxx-hs span{font-size:0;padding:6px 10px}
+  .nxx-hs span strong{font-size:13px}
+}
+/* Hover focus: the hovered callout stays, the others and their lines fade (not on touch screens, where a tap would leave them faded) */
+@media (hover:hover){
+  .nxx-glance-stage.is-focus .nxx-hs:not(.is-hover){opacity:.16}
+  .nxx-glance-stage.is-focus .nxx-lines line:not(.is-hover){opacity:.1}
+}
+/* All six texts share one grid cell, so the card is as tall as the longest one and never pushes the page when the text changes */
+.nxx-hscard{position:relative;display:grid;margin:44px auto 0;width:min(560px,100%);padding:14px 20px;border-radius:18px;background:rgba(10,14,22,.78);border:1px solid rgba(255,255,255,.1);opacity:0;transition:opacity .35s;text-align:center}
+.nxx-hscard.is-on{opacity:1}
+.nxx-hscard>div{grid-area:1/1;visibility:hidden;opacity:0;transition:opacity .3s}
+.nxx-hscard>div.is-on{visibility:visible;opacity:1}
+.nxx-hscard strong{display:block;font-size:16px;color:var(--fg);margin-bottom:2px}
+.nxx-hscard p{margin:0;font-size:14.5px;line-height:1.45;color:var(--fg-2);max-width:none}
+
+/* Reduced motion, data saver, old browsers: everything shown at once */
+.nxx-static .nxx-hero-inner>*,.nxx-static .nxx-hero-media{opacity:1;animation:none}
+.nxx-static .nxx-device,.nxx-static .nxx-pulse,.nxx-static .nxx-pill,.nxx-static .nxx-sweep use,.nxx-static .nxx-hs i::before{animation:none}
+
+/* ---------- One device, three jobs (dark) ---------- */
+.nxx-jobs{padding:clamp(72px,10vw,120px) 0;background:linear-gradient(180deg,var(--k) 0%,var(--k2) 100%)}
+.nxx-jobs .nxh-section-head{max-width:760px}
+.nxx-jobs .nxh-section-head p{color:var(--fg-2)}
+.nxx-jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.nxx-job{padding:30px 28px;border-radius:24px;background:rgba(255,255,255,.04);border:1px solid var(--line-d);transition:transform .4s var(--ease),border-color .3s}
+.nxx-job:hover{transform:translateY(-4px);border-color:rgba(55,194,214,.45)}
+.nxx-job .nxh-ico{background:var(--ac-soft)}
+.nxx-job .nxh-ico svg{stroke:var(--ac)}
+.nxx-job h3{font-size:22px;margin-bottom:8px}
+.nxx-job p{margin:0;font-size:16px}
+.nxx-scribe{margin-top:44px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:var(--fg-2);font-size:15px}
+.nxx-scribe b{padding:7px 13px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--fg);font-size:13px;font-weight:700}
+.nxx-scribe .nxh-text-link{color:var(--fg);text-decoration-color:var(--ac)}
+.nxx-scribe .nxh-text-link:hover{color:var(--ac)}
+.nxx-scribe-lead{font-size:clamp(20px,2vw,26px);font-weight:700;color:var(--fg);margin:44px 0 0;max-width:26em;letter-spacing:-.01em}
+
+/* ---------- Built for the floor (light) ---------- */
+.nxx-floor{background:var(--bg)}
+.nxx-floor-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:center}
+.nxx-floor-photo{margin:0;position:relative}
+.nxx-floor-photo img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 30%;border-radius:28px;box-shadow:var(--shadow)}
+.nxx-floor-photo figcaption{position:absolute;left:18px;bottom:18px;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.92);font-size:13px;font-weight:700;color:var(--navy)}
+.nxx-floor .nxh-benefit-grid{grid-template-columns:1fr 1fr;margin-top:28px}
+.nxx-floor .nxh-benefit{padding:22px}
+.nxx-floor .nxh-benefit h3{font-size:18px}
+.nxx-floor .nxh-benefit p{font-size:15px}
+
+/* ---------- Pricing additions (the cards themselves come from nx-home.css) ---------- */
+.nxx-bill{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:999px;background:#fff;border:1px solid var(--line);max-width:420px;margin:0 auto 14px}
+.nxx-bill label{position:relative;cursor:pointer}
+.nxx-bill input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.nxx-bill span{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:6px 10px;border-radius:999px;font-weight:700;font-size:15px;color:var(--navy);transition:background .25s,color .25s}
+.nxx-bill em{font-style:normal;font-size:11px;font-weight:800;padding:2px 8px;border-radius:999px;background:rgba(55,194,214,.22);color:var(--navy);white-space:nowrap}
+.nxx-bill input:checked+span{background:var(--navy);color:#fff}
+.nxx-bill input:checked+span em{background:var(--cyan);color:var(--navy)}
+.nxx-bill input:focus-visible+span{outline:2px solid var(--cyan);outline-offset:2px}
+/* Billing and currency side by side (USD/CAD toggle, Lucas 2026-11-11); they wrap on phones */
+.nxx-toggles{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px;margin:0 auto 14px}
+.nxx-toggles .nxx-bill{margin:0;flex:0 1 420px}
+.nxx-toggles .nxx-cur{flex:0 0 168px}
+.nxx-device-line{text-align:center;font-weight:700;color:var(--navy);margin:0 0 26px}
+.nxx-device-line s{color:var(--muted);font-weight:600}
+/* Pre-order line under the device price (strategy meeting 2026-11-06); remove with the stock */
+.nxx-device-line:has(+ .nxx-preorder){margin-bottom:8px}
+.nxx-preorder{text-align:center;color:var(--muted);font-size:15px;margin:0 0 26px}
+.nxx-preorder b{color:var(--navy)}
+.nxx-plans{display:grid;grid-template-columns:minmax(0,440px) minmax(0,400px);justify-content:center;align-items:stretch;gap:24px}
+.nxx-included{border-radius:24px;padding:30px;background:linear-gradient(135deg,rgba(55,194,214,.16),rgba(55,194,214,.04));border:1px solid rgba(55,194,214,.35);display:flex;flex-direction:column}
+.nxx-included h3{margin:6px 0 4px;font-size:22px}
+.nxx-included .nxx-tag{display:inline-block;align-self:flex-start;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--navy);color:#fff}
+.nxx-included .nxx-free{margin:0 0 6px;color:var(--navy)}
+.nxx-included .nxx-free b{font-size:36px;line-height:1;letter-spacing:-.03em}
+.nxx-included .nxx-free span{font-size:14px;color:var(--muted);font-weight:600}
+.nxx-included ul{list-style:none;padding:16px 0 0;margin:8px 0 0;border-top:1px solid rgba(14,27,77,.12);display:grid;gap:10px;font-size:15px;color:var(--navy);font-weight:600}
+.nxx-included li{position:relative;padding-left:28px}
+.nxx-included li::before{content:"";position:absolute;left:0;top:2px;width:18px;height:18px;border-radius:50%;background:var(--cyan) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12l4 4 8-8'/%3E%3C/svg%3E") center/12px no-repeat}
+.nxx-cad{text-align:center;margin:14px 0 0;font-size:14px;color:var(--muted)}
+.nxx-cad a{font-weight:700;color:var(--navy)}
+.nxx .nxh-guarantee{justify-content:center;text-align:center}
+
+/* ---------- NxHUB band ---------- */
+.nxx-hub{background:#fff}
+/* the card itself (.nxx-hub-card) is styled in snippets/nx-device-card.liquid, shared with the product pages */
+
+/* ---------- Responsive ---------- */
+@media (max-width:1000px){
+  .nxx-jobs-grid{grid-template-columns:1fr}
+  .nxx-floor-grid{grid-template-columns:1fr;gap:28px}
+  .nxx-floor-photo{max-width:460px}
+  .nxx-plans{grid-template-columns:1fr;max-width:460px;margin-inline:auto}
+}
+@media (max-width:760px){
+  .nxx-hero{min-height:0;padding:calc(var(--nxh-top,0px) + 104px) 0 64px}
+  .nxx-hero-grid{grid-template-columns:1fr;gap:28px}
+  .nxx-hero h1{font-size:min(46px,9.6cqi);margin-bottom:12px}
+  .nxx-hero .nxh-lead{font-size:16px;margin-bottom:18px}
+  .nxx-hero .nxh-hero-trust{display:none}
+  .nxx-hero-media{justify-content:center}
+  .nxx-hero .nxx-scene{width:min(100%,calc(46svh * .8))}
+  .nxx-cue{display:none}
+  .nxx-glance{padding:72px 0}
+  .nxx-glance-head{margin-bottom:36px;padding:0}
+  .nxx-glance-head h2{font-size:28px}
+  .nxx-glance .nxx-device{--dw:min(50vw,calc(40svh * .633))}
+  .nxx-hs span,.nxx-lines{display:none}
+  .nxx-hs i{width:26px;height:26px;margin:-13px 0 0 -13px}
+  .nxx-hs i::after{inset:6px}
+  .nxx-hscard{margin-top:28px;padding:12px 16px}
+  .nxx-hscard p{font-size:14px}
+  .nxx-floor .nxh-benefit-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .nxx-pill,.nxx-sweep use,.nxx-led-base,.nxx-hs i,.nxx-hs i::before,.nxx-pulse,.nxx-device,.nxx-hero-inner>*,.nxx-hero-media,.nxx-cue span{animation:none!important}
+  .nxx-pre .nxx-hero-inner>*,.nxx-pre .nxx-hero-media{opacity:1}
+  .nxx-hs i,.nxx-hs span,.nxx-lines line{transition:none}
+}
+
+/* ---------- Light look (.nxx-light, always on; Lucas 2026-11-04 chose White over Dark and Blue) ----------
+   Same layout and motion; the dark sections (hero, Clips on, at a glance, three jobs) take the home page hero's backdrop on the
+   preview branch (.nxh-hero-3d .nxh-hero-bg in nx-home.css): grey blue with a soft cyan and blue glow and the light navy grid, navy text.
+   On the desktop stage the backdrop and the grid sit on the pinned frame, so they stay put while the photo zooms into the glance.
+   The headline's cyan is a deeper shade of the same cyan here (#1595a8), since #37c2d6 is too pale on a light ground to read. */
+.nxx.nxx-light{--k:#eef3f6;--k2:#e8f0f4;--fg:var(--navy,#0e1b4d);--fg-2:var(--muted,#55656f);--line-d:var(--line,#dde1ea);--ac-soft:rgba(55,194,214,.2)}
+.nxx.nxx-light .nxx-bg,.nxx.nxx-light:not(.nxx-duo-on) .nxx-glance,.nxx.nxx-light.nxx-duo-on .nxx-duo-pin{background:radial-gradient(60% 55% at 75% 45%,rgba(55,194,214,.2),transparent 70%),radial-gradient(45% 50% at 10% 10%,rgba(80,110,220,.1),transparent 70%),linear-gradient(180deg,#f5f8fb 0%,#e8f0f4 100%)}
+.nxx.nxx-light .nxx-bg::after,.nxx.nxx-light.nxx-duo-on .nxx-duo-pin::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(14,27,77,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(14,27,77,.05) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(70% 70% at 70% 50%,#000 20%,transparent 75%);mask-image:radial-gradient(70% 70% at 70% 50%,#000 20%,transparent 75%);pointer-events:none}
+.nxx.nxx-light.nxx-duo-on .nxx-bg{background:none}
+.nxx.nxx-light.nxx-duo-on .nxx-bg::after{display:none}
+.nxx.nxx-light .nxx-hero h1{color:var(--fg)}
+.nxx.nxx-light .nxx-hero h1 span{color:#1595a8}
+.nxx.nxx-light .nxx-hero .nxh-lead{color:var(--fg-2)}
+.nxx.nxx-light .nxx-hero .nxh-lead strong{color:var(--fg)}
+.nxx.nxx-light .nxx-hero .nxh-hero-trust{color:var(--fg-2)}
+.nxx.nxx-light .nxx-hero .nxh-btn-outline-light{color:var(--fg);border-color:rgba(14,27,77,.3)}
+.nxx.nxx-light .nxx-hero .nxh-btn-outline-light:hover{border-color:var(--fg);background:rgba(14,27,77,.04)}
+.nxx.nxx-light .nxx-cue{border-color:rgba(14,27,77,.25)}
+.nxx.nxx-light .nxx-scene{box-shadow:0 40px 90px -40px rgba(10,20,56,.45);background:#e9edf2}
+.nxx.nxx-light .nxx-scene::after{background:linear-gradient(180deg,rgba(255,255,255,0) 70%,rgba(14,27,77,.18) 100%)}
+.nxx.nxx-light .nxx-hs span{background:rgba(255,255,255,.96);border-color:var(--line-d);box-shadow:0 10px 30px -16px rgba(10,20,56,.35)}
+.nxx.nxx-light .nxx-hs.is-on span{background:#fff;border-color:var(--ac)}
+.nxx.nxx-light .nxx-hs i::after{background:#fff}
+.nxx.nxx-light .nxx-hscard{background:#fff;border-color:var(--line-d);box-shadow:0 14px 40px -24px rgba(10,20,56,.35)}
+.nxx.nxx-light .nxx-glance-head a{color:var(--fg)}
+.nxx.nxx-light .nxx-glance-head a:hover{color:#1595a8}
+.nxx.nxx-light .nxx-jobs{background:linear-gradient(180deg,var(--k2) 0%,#fff 100%)}
+.nxx.nxx-light .nxx-job{background:#fff;box-shadow:0 14px 40px -28px rgba(10,20,56,.35)}
+.nxx.nxx-light .nxx-scribe b{background:rgba(14,27,77,.06)}
+.nxx.nxx-light .nxx-scribe .nxh-text-link:hover{color:#1595a8}
+
+/* Hero photo without a frame (Gerard, 2026-11-06: "there's a border around the image"; the clinic as the background, fading into
+   the page). Desktop: the wide scene (nx-extero-hero-clinic-*.jpg) fills the hero behind the copy, anchored right so the vet stays
+   clear of the headline, faint on the left and gone at the top and bottom edges. The device ring sits at 71.1% / 43.3% of that
+   picture (PHOTO_RING in nx-extero-home.js; object-position must match PHOTO_POS_X / PHOTO_POS_Y). Phones: the plain portrait
+   photo with 12px corners, no fade, no shadow, no pulse rings (Lucas, 2026-11-10). */
+@media (min-width:761px){
+  .nxx.nxx-light .nxx-hero-grid{position:static}
+  .nxx.nxx-light .nxx-hero-inner{position:relative;z-index:2}
+  .nxx.nxx-light .nxx-hero-media{position:absolute;inset:0;z-index:1;display:block;pointer-events:none}
+  .nxx.nxx-light .nxx-scene{position:absolute;inset:0;width:auto;height:auto;aspect-ratio:auto;border-radius:0;box-shadow:none;background:transparent;
+    -webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.42) 34%,#000 60%),linear-gradient(180deg,transparent 0%,#000 16%,#000 80%,transparent 100%);
+    -webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.42) 34%,#000 60%),linear-gradient(180deg,transparent 0%,#000 16%,#000 80%,transparent 100%);mask-composite:intersect}
+  .nxx.nxx-light .nxx-photo{object-position:40% 36%}
+  .nxx.nxx-light .nxx-scene::after{display:none}
+}
+@media (max-width:760px){
+  .nxx.nxx-light .nxx-hero .nxx-scene{width:min(100%,calc(52svh * .8));border-radius:12px;box-shadow:none;background:transparent;-webkit-mask-image:none;mask-image:none}
+  .nxx.nxx-light .nxx-scene::after,.nxx.nxx-light .nxx-hero .nxx-pulse{display:none}
+}
+
+/* NxHUB 3D band (main's NxHUB hero, 2026-11-11): its title is an h2 styled like main's hero h1 */
+.nxh-hero-3d .nxx-hub3d-title{color:var(--navy);font-size:clamp(36px,4.6vw,64px);letter-spacing:-.035em;line-height:1.04;margin:0 0 20px}
+.nxh-hero-3d .nxx-hub3d-title span{color:var(--cyan-2,#1595a8)}

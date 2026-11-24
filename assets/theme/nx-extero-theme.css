@@ -1,0 +1,221 @@
+/* Extero look (branch lucas-shopify-extero): an upgrade of the NxVET identity, not a new one.
+   Light pages, header and footer as on the NxHUB site. The brand is still NxVET (Lucas, 2026-11-11): the navbar and the footer carry
+   the NxVET logo with its registered mark (nx-logo.png); Extero is the highlight on the pages
+   (the homepage loader that said "Extero, by NxVET" was removed on 2026-11-11). Only the homepage hero uses the deck's near-black (#111111) with a faint teal tint. No glows. */
+
+.nxhd-logo img { width:auto; height:30px; }
+.nxft-logo img { width:auto; height:35px; }
+.nxhd-cta-more { margin-left:.28em; }
+@media (max-width:480px) { .nxhd-cta-more { display:none; } }
+
+/* Homepage hero: deck near-black */
+.nxx .nxx-hero { color:#c3ccd3; isolation:isolate; }
+.nxx .nxx-hero .nxh-hero-bg { background:radial-gradient(55% 70% at 80% 40%, rgba(0,73,106,.45), transparent 72%), #111111; }
+.nxx .nxx-hero h1 { color:#f4f6f7; }
+.nxx .nxx-hero h1 span { color:#37c2d6; }
+.nxx .nxx-hero .nxh-lead { color:#c3ccd3; }
+.nxx .nxx-hero .nxh-lead strong { color:#f4f6f7; }
+.nxx .nxx-hero .nxh-hero-trust { color:#dce6ec; }
+.nxx .nxx-hero .nxx-jobs li { color:#f4f6f7; border-color:rgba(220,230,236,.16); }
+.nxx .nxx-hero .nxh-btn-outline-light { color:#f4f6f7; }
+.nxx .nxx-hero .nxh-btn-outline-light:hover { border-color:#f4f6f7; }
+.nxx .nxx-hero-photo figcaption { color:#f4f6f7; }
+
+/* Product photo: the deck's counter shot, shown as is */
+.nxx .nxh-product-photo { padding:0; overflow:hidden; }
+.nxx .nxh-product-photo img { display:block; height:auto; aspect-ratio:4/5; object-fit:cover; object-position:50% 70%; mix-blend-mode:normal; }
+
+/* Wider container on every page (review with Gerard, 2026-11-03: some text sections felt unbalanced). Was 1180px.
+   .nxh-root raises it over nx-home.css whatever the load order; body raises the header and footer over nx-chrome.css. */
+.nxh-root .nxh-wrap, body .nxft-wrap { width:min(1280px, 100% - 64px); }
+body .nxhd-pill, body .nxhd-mobile { width:min(1280px, 100% - 32px); }   /* the header has 16px side padding, so its edges line up with the content */
+@media (max-width:760px) {
+  .nxh-root .nxh-wrap, body .nxft-wrap { width:min(1280px, 100% - 32px); }
+  body .nxhd-pill, body .nxhd-mobile { width:100%; }
+}
+
+/* Less rounded navbar and calls to action on every page (Lucas, 2026-11-03): the pills become rounded rectangles (navbar 12px, buttons 10px).
+   body raises these over nx-chrome.css, nx-home.css and nx-pages.css whatever the load order. Badges, toggles and the chat launcher keep their shape. */
+body .nxhd-pill, body .nxh-sticky-cta, body .nxhd-mobile { border-radius:12px; }
+body .nxhd-nav > ul > li > a, body .nxhd-dd > button, body .nxhd-login, body .nxhd-btn { border-radius:10px; }
+body .nxh-btn, body .nxh-bio-btn, body .nxh-shot-cta { border-radius:10px; }
+/* Dawn buttons (cart page, cart drawer, account pages) match the site CTAs: 10px corners, no drop shadow. On body so it beats the :root values in theme.liquid. */
+body { --buttons-radius:10px; --buttons-radius-outset:11px; --buttons-shadow-opacity:0; --buttons-shadow-visible:0; }
+body .button:not(.button--secondary):not(.button--tertiary), body .shopify-challenge__button { --color-button-text:14,27,77; font-weight:700; }   /* navy bold text, like .nxh-btn-primary (Lucas, 2026-11-06) */
+
+/* Everything else with a big radius follows the buttons (Lucas, 2026-11-03): cards, panels, photos and dialogs 12px; inputs, small boxes
+   and pill controls 10px; chips, tags and toggle segments 8px; tiny badges 6px. True circles keep their shape (cart count, guide pins,
+   the Scroll mouse icons). Generated from every nx stylesheet and section style block on this branch (the 3D clinic excluded); body
+   raises each rule over its source whatever the load order. A new rounded element needs its own line here. */
+body .nxh-root { --radius:12px; --radius-sm:10px; }   /* the shared card radius in nx-home.css (was 20px and 12px) */
+body .nx-post-box,
+body .article-template__content .nx-post-cta a.nx-post-btn,
+body .nxhd-shop-tile img,
+body .nxhd-dd-panel a.nxhd-shop-all,
+body .nxhd-dd-panel a,
+body .nxhd-mobile a:not(.nxhd-btn),
+body .nxhd-mobile-product img,
+body .nxft-form input[type=email],
+body .nxft-form button,
+body .customer .field__input,
+body .customer .field input,
+body .customer select,
+body .nxx-hs span,
+body .nxx-bill,
+body .nxq .nxq-controls li,
+body .nxq .nxq-tip,
+body .nxq .nxq-step::before,
+body .nxq .nxq-arcs div,
+body .nxq .nxq-shots-nav button,
+body .nxq .nxq-shots img,
+body .nxh-stat-line,
+body .nxh-step-art,
+body .nxh-mini-hub,
+body .nxh-ico,
+body .nxh-roi-results div,
+body .nxh-stepper,
+body .nxh-plan-img,
+body .nxh-guarantee,
+body .nxh-root dialog input,
+body .nxh-flow li::before,
+body .nxh-root .nxh-field input,
+body .nxh-root .nxh-field textarea,
+body .nxh-root .nxh-field select,
+body .nxh-alert,
+body .nxh-root .nxh-res-search,
+body .nxh-thumb,
+body .nxh-plan-opt,
+body .nxh-buybox .nxh-stepper,
+body .nxh-bundle .nxh-currency,
+body .nxh-bundle .nxh-bill,
+body .nxh-bundle .nxh-prod,
+body .nxh-extero .nxh-thumb img,
+body .nxh-extero .nxh-bill,
+body .nxh-extero .nxh-nudge,
+body .nxh-extero .nxh-currency,
+body .nxh-extero .nxh-addon-opt,
+body .nxh-extero .nxh-existing,
+body .nxh-extero .nxh-promo,
+body .nxh-extero .nxh-addon-icon,
+body .nxh-pdp .nxh-currency,
+body .nxh-shop .nxh-notify input[type=email],
+body .nxhub-ship__summary,
+body .nxhub-ship__btn,
+body .nxhub-ship__expired,
+body .nxhub-ship__rate,
+body .nxhub-ship__toggle,
+body .nxhub-ship__pickup-info,
+body .nxc-launch,
+body .nxc-ava,
+body .nxc-opt,
+body .nxc-link,
+body .nxc-sum,
+body .nxc-send,
+body .nxc-input,
+body .nxc-go,
+body .nxq .nxq-web .nxq-photo,
+body .nxq .nxs-web .nxq-photo,
+body .nxq .nxs-old { border-radius:10px; }
+body .nx-post-cta,
+body .nx-more-card,
+body .nxhd-dd-panel,
+body .nxhub-ship__card,
+body .nxbk,
+body .nxx-scene,
+body .nxx-hscard,
+body .nxx-job,
+body .nxx-floor-photo img,
+body .nxx-included,
+body .nxx-hub-card,
+body .nxq .nxq-main .nxh-section-white,
+body .nxq .nxq-callouts,
+body .nxq .nxq-check li,
+body .nxq .nxq-step,
+body .nxq .nxq-note > div,
+body .nxq .nxq-card,
+body .nxq .nxq-modes,
+body .nxq .nxq-table,
+body .nxq .nxq-faq,
+body .nxq .nxq-hero-art--card img,
+body .nxq .nxq-photo,
+body .nxq .nxq-shots li,
+body .nxq .nxq-video,
+body .nxh-hero-3d .nxh-jt,
+body .nxh-problem-photo img,
+body .nxh-roi-card,
+body .nxh-team-photo img,
+body .nxh-plan,
+body .nxh-root dialog,
+body .nxh-product-photo,
+body .nxh-page-hero-art img,
+body .nxh-person,
+body .nxh-root .nxh-bio-dialog,
+body .nxh-bio-body .nxh-bio-photo,
+body .nxh-logo-tile,
+body .nxh-guide,
+body .nxh-dev,
+body .nxh-code,
+body .nxh-contact-option,
+body .nxh-form-card,
+body .nxh-res-card,
+body .nxh-quote-featured,
+body .nxh-compare,
+body .nxh-table-wrap,
+body .nxh-gallery-main,
+body .nxh-product-price,
+body .nxh-buybox,
+body .nxh-shot,
+body .nxh-root .nxh-lightbox,
+body .nxh-extero .nxh-addons,
+body .nxh-extero .nxh-addon,
+body .nxh-shop .nxh-pcard,
+body .nxh-shop .nxh-hubwhy div,
+body .nxh-shop .nxh-shop-strip div,
+body .nxhub-ship__pickup-free,
+body .nxc-panel,
+body .nxc-msg,
+body .nxq .nxs-devices a { border-radius:12px; }
+body .nx-more-tag,
+body .nxx-scribe b,
+body .nxx-floor-photo figcaption,
+body .nxx-bill span,
+body .nxx-included .nxx-tag,
+body .nxq .nxq-gest,
+body .nxh-problem-photo figcaption,
+body .nxh-plan-badge,
+body .nxh-scribe-strip b,
+body .nxh-guide-tag,
+body .nxh-chip,
+body .nxh-plan-opt-top em,
+body .nxh-shot > span,
+body .nxh-bundle .nxh-bill span,
+body .nxh-bundle .nxh-prod-promo em,
+body .nxh-extero .nxh-bill span,
+body .nxh-extero .nxh-promo em,
+body .nxh-extero .nxh-addons-head span,
+body .nxh-shop .nxh-pcard-badge { border-radius:8px; }
+body .nxhd-new,
+body .nxx-bill em,
+body .nxq .nxq-gest em b.nxq-hold,
+body .nxh-bundle .nxh-bill em,
+body .nxh-extero .nxh-bill em { border-radius:6px; }
+@media (max-width:1000px) {
+body .nxq .nxq-side a { border-radius:10px; }
+}
+@media (max-width:600px) {
+body .nxh-extero .nxh-thumb { border-radius:10px; }
+}
+
+
+/* Extero wordmark inside the pages (snippets/nx-extero-mark.liquid): letters in currentColor, the ring (right of 80%) in Extero cyan */
+.nx-xmark { position:relative; display:block; height:var(--nx-xmark-h,30px); aspect-ratio:917/220; color:var(--nx-navy,#0e1b4d); }
+.nx-xmark::before, .nx-xmark::after { content:""; position:absolute; inset:0; -webkit-mask:var(--nx-xmark) center/100% 100% no-repeat; mask:var(--nx-xmark) center/100% 100% no-repeat; }
+.nx-xmark::before { background:currentColor; clip-path:inset(0 20% 0 0); }
+.nx-xmark::after { background:#37c2d6; clip-path:inset(0 0 0 80%); }
+.nx-xmark-vh { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+/* Above a section heading ("One device, three jobs", closing) */
+.nx-xmark-head { --nx-xmark-h:clamp(24px,2.6vw,32px); margin:0 auto 18px; }
+.nxh-closing .nx-xmark-head { color:#fff; --nx-xmark-h:clamp(30px,3.4vw,42px); margin-bottom:24px; }
+/* The product name on the Extero product page is the wordmark; the cap height matches the old text H1 */
+.nxh-root .nxh-product-info h1 .nx-xmark { --nx-xmark-h:.82em; margin:.08em 0 .1em; }
+.nxx-jobs .nx-xmark-head { margin-inline:0; }   /* this heading is left-aligned */

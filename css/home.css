@@ -1,0 +1,113 @@
+/* extero.ai homepage only. Loads after nx.vet's nx-home.css, nx-extero-theme.css, nx-extero-home.css and nx-polish.css
+   (assets/theme/, verbatim) and adds what the generic page needs: a smaller hero with the industries video, the walkie-talkie
+   band, the industry cards. Same rules as nx.vet: cyan is the only accent, corners 10 and 12 px, no number strips. */
+
+.xo{--ease:cubic-bezier(.22,.8,.24,1)}
+.xo h2{text-wrap:balance}
+.xo p,.xo li,.xo summary{text-wrap:pretty}
+
+/* ---------- Hero: smaller than nx.vet's full-screen one (Lucas, 2026-11-23), the video of Extero worn in several industries at the right ---------- */
+.nxx.xo .nxx-hero{min-height:0;padding:116px 0 56px}
+.nxx.xo .nxx-hero h1{font-size:min(58px,9.6cqi);line-height:1.02;margin-bottom:18px}
+.nxx.xo .nxx-hero .nxh-lead{margin-bottom:26px}
+@media (min-width:761px){
+  .nxx.nxx-light.xo .nxx-hero-grid{position:relative;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:40px}
+  .nxx.nxx-light.xo .nxx-hero-media{position:relative;inset:auto;z-index:1;display:flex;justify-content:center;pointer-events:auto}
+}
+/* As large as the column allows, but the whole hero stays inside one screen (Lucas, 2026-11-23: bigger video) */
+.xo-reel{position:relative;margin:0;width:min(100%,520px,calc((100svh - 190px) * .8));min-width:min(100%,320px);aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:#dfe6ec;box-shadow:0 40px 90px -40px rgba(10,20,56,.5)}
+.xo-reel video,.xo-reel img{display:block;width:100%;height:100%;object-fit:cover}
+/* Industry pages whose hero is a picture: it settles into place once, so the page does not open on a dead frame */
+@media (prefers-reduced-motion:no-preference){.xo-reel img{animation:xo-reel-in 1.8s var(--ease) both}}
+@keyframes xo-reel-in{from{transform:scale(1.07)}to{transform:none}}
+.xo-reel-tag{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,.94);color:var(--navy);font-size:13.5px;font-weight:700;line-height:1.2}
+.xo-reel-tag i{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex:none}
+
+/* ---------- Three jobs: centred head on this page ---------- */
+.xo .nxx-jobs .nxh-section-head{margin-inline:auto;text-align:center}
+.xo .nxx-jobs .nx-xmark-head{margin-inline:auto}
+.xo .nxx-scribe-lead{margin-inline:auto;text-align:center}
+
+/* ---------- Walkie-talkie: a navy band (the same blue as the closing band), two devices passing a message ---------- */
+.xo-talk{position:relative;isolation:isolate;overflow:hidden;padding:clamp(72px,10vw,120px) 0;background:var(--navy);color:#cdd6e6}
+.xo-talk-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,72px);align-items:center}
+.xo-talk h2{color:#fff;margin-bottom:14px}
+.xo-talk .nxh-lead{margin-bottom:26px}
+.xo-talk-list{list-style:none;padding:0;margin:0 0 30px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.xo-talk-list li{padding:16px 18px;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:15px;line-height:1.45;color:#cdd6e6}
+.xo-talk-list strong{display:block;margin-bottom:3px;color:#fff;font-size:17px;line-height:1.25}
+.xo-talk-stage{display:grid;grid-template-columns:auto minmax(40px,1fr) auto;align-items:center;gap:10px}
+.xo-talk-unit{text-align:center}
+.xo-talk-unit .nxx-device{--dw:clamp(104px,12.5vw,168px);margin-inline:auto;filter:drop-shadow(0 26px 30px rgba(4,8,30,.55))}
+.xo-talk-unit p{margin:18px 0 0;font-size:14px;line-height:1.35;color:#aebbd2;min-height:2.7em}
+.xo-talk-unit p b{display:block;color:#fff;font-size:16px}
+.xo-talk-dev[data-led=off] .nxx-pill{opacity:0;animation:none}
+.xo-talk-dev[data-led=wait]{--lc:#37c2d6;--lk:#e3fbff}
+.xo-talk-dev[data-led=wait] .nxx-pill{opacity:1;animation:nxx-pulse2 1.6s ease-in-out infinite}
+.xo-talk-waves{display:flex;align-items:center;justify-content:center;gap:clamp(6px,1vw,12px);height:64px;margin-bottom:56px}
+.xo-talk-waves i{width:5px;height:22px;border-radius:3px;background:var(--cyan);opacity:.18;transform:scaleY(.5);transition:opacity .4s}
+.xo-talk-waves i:nth-child(1){--n:0}.xo-talk-waves i:nth-child(2){--n:1}.xo-talk-waves i:nth-child(3){--n:2}.xo-talk-waves i:nth-child(4){--n:3}.xo-talk-waves i:nth-child(5){--n:4}
+@media (prefers-reduced-motion:no-preference){
+  .xo-talk-stage[data-phase=send] .xo-talk-waves i{animation:xo-wave 1.1s ease-in-out infinite;animation-delay:calc(var(--n) * .13s)}
+}
+@keyframes xo-wave{0%,100%{transform:scaleY(.5);opacity:.18}45%{transform:scaleY(2.4);opacity:1}}
+
+/* ---------- Three jobs: a photo of the job being done on top of each card (cut by _tools/make-industry-images.py) ---------- */
+.xo .nxx-job{overflow:hidden}
+.xo-job-img{display:block;width:calc(100% + 56px);max-width:none;height:auto;aspect-ratio:3/2;object-fit:cover;margin:-30px -28px 24px;background:#dfe6ec;transition:transform .7s var(--ease)}
+.xo .nxx-job:hover .xo-job-img{transform:scale(1.03)}
+
+/* ---------- Industries: eight portrait cards, four across (Dentistry and Physiotherapy first, Lucas 2026-11-23).
+   On phones the row becomes a strip that scrolls sideways. ---------- */
+.xo-inds{background:#fff}
+.xo-ind-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;max-width:1080px;margin-inline:auto}
+.xo-ind{position:relative;display:block;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#dfe6ec;color:var(--navy);text-decoration:none;box-shadow:0 14px 40px -28px rgba(10,20,56,.35);transition:transform .4s var(--ease),box-shadow .3s}
+.xo-ind:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.xo-ind img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% var(--pos,12%);transition:transform .7s var(--ease)}
+.xo-ind:hover img{transform:scale(1.04)}
+/* Where a frame is cropped, so the device stays above the label */
+.xo-ind[data-ind=healthcare]{--pos:100%}
+.xo-ind[data-ind=emergency-services]{--pos:40%}
+.xo-ind-cap{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-direction:column;gap:1px;padding:10px 13px;border-radius:8px;background:rgba(255,255,255,.95)}
+.xo-ind-cap strong{font-size:17px;line-height:1.25;font-weight:700}
+.xo-ind-cap em{font-style:normal;font-size:14px;font-weight:700;color:#1595a8}
+.xo-ind-more{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px;margin:32px 0 0;color:var(--muted)}
+.xo-ind-more .nxh-text-link{margin-left:0}
+@media (prefers-reduced-motion:reduce){.xo-ind,.xo-ind img,.xo-job-img{transition:none}.xo-ind:hover,.xo-ind:hover img,.xo .nxx-job:hover .xo-job-img{transform:none}}
+
+/* ---------- Small corners on the pieces the theme rounds more (Lucas, 2026-11-03) ---------- */
+.xo .nxx-job,.xo .nxx-hscard,.xo .nxx-floor-photo img,.xo .nxh-benefit{border-radius:12px}
+.xo .nxx-floor-photo figcaption{border-radius:8px}
+.xo .nxh-ico{border-radius:10px}
+
+@media (max-width:1000px){
+  .xo-talk-grid{grid-template-columns:1fr}
+  .xo-talk-stage{max-width:520px;margin-inline:auto;width:100%}
+  .xo-ind-grid{gap:12px}
+  .xo-ind-cap{left:8px;right:8px;bottom:8px;padding:8px 10px}
+  .xo-ind-cap strong{font-size:15px}
+  .xo-ind-cap em{font-size:13px}
+}
+/* Tablets: the three job cards stay side by side (the theme stacks them, which makes each photo fill the screen) */
+@media (min-width:700px) and (max-width:1000px){
+  .xo .nxx-jobs-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+  .xo .nxx-job{padding:20px 18px}
+  .xo-job-img{width:calc(100% + 36px);margin:-20px -18px 16px}
+  .xo .nxx-job h3{font-size:18px}
+  .xo .nxx-job p{font-size:14.5px}
+}
+@media (max-width:760px){
+  .nxx.xo .nxx-hero{padding:100px 0 48px}
+  .nxx.xo .nxx-hero h1{font-size:min(44px,9.6cqi)}
+  .xo-reel{width:min(100%,380px);min-width:0}
+  .xo-talk-list{grid-template-columns:1fr}
+  .xo-talk-unit .nxx-device{--dw:min(27vw,120px)}
+  .xo-ind-grid{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:16px;scrollbar-width:none;margin-inline:-16px;padding:4px 16px 14px}
+  .xo-ind-grid::-webkit-scrollbar{display:none}
+  .xo-ind{scroll-snap-align:start}
+  .xo-ind:hover,.xo-ind:hover img{transform:none}
+  .xo-ind-cap strong{font-size:16px}
+}
+
+/* ---------- Industry pages (/healthcare/ and the others, generated by build.mjs): the card of the page you are on ---------- */
+.xo-ind[aria-current]{outline:3px solid var(--cyan);outline-offset:-3px}

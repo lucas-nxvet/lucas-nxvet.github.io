@@ -1,0 +1,307 @@
+/* NxVET polish layer (branch lucas-shopify-extero, 2026-11-09). Loaded on every page by sections/nx-header.liquid, after nx-chrome.css
+   and nx-extero-theme.css. Adds motion and hover states and fixes alignment; it changes no copy and no page structure.
+   Behaviour lives in nx-polish.js. Everything animated sits behind prefers-reduced-motion, and nothing here hides content
+   unless nx-polish.js put the class there (no script, no hidden content). */
+
+:root { --nxp-ease:cubic-bezier(.22,1,.36,1); --nxp-cyan:55,194,214; }
+
+/* ---------- 1. Cursor glow (mouse only; nx-polish.js creates the element) ---------- */
+.nxp-glow { position:fixed; left:0; top:0; z-index:35; width:460px; height:460px; margin:-230px 0 0 -230px; border-radius:50%; pointer-events:none; opacity:0;
+  background:radial-gradient(closest-side, rgba(var(--nxp-cyan),.17), rgba(var(--nxp-cyan),.07) 45%, rgba(var(--nxp-cyan),0) 72%);
+  transition:opacity .6s ease; will-change:transform; contain:strict; }
+.nxp-glow.is-on { opacity:1; }
+.nxp-glow.is-down { opacity:.6; }
+@media print { .nxp-glow { display:none; } }
+
+/* Navy bands: the grid lights up around the cursor */
+.nxh-hero-bg::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .5s ease;
+  background-image:linear-gradient(rgba(var(--nxp-cyan),.3) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--nxp-cyan),.3) 1px, transparent 1px); background-size:56px 56px;
+  -webkit-mask-image:radial-gradient(240px circle at var(--nxp-x,-999px) var(--nxp-y,-999px), #000 0%, transparent 100%); mask-image:radial-gradient(240px circle at var(--nxp-x,-999px) var(--nxp-y,-999px), #000 0%, transparent 100%); }
+.nxh-hero-bg.nxp-lit::before { opacity:1; }
+.nxx-duo .nxh-hero-bg::before { display:none; }   /* only the homepage's pinned hero stage keeps its own tuned backdrop; the closing band lights up like everywhere else */
+
+/* ---------- 2. Navbar: dropdown items come in one after another ---------- */
+.nxhd-dd-panel { transition:opacity .22s ease, transform .4s var(--nxp-ease), visibility .22s; transform-origin:50% 0; }
+@media (prefers-reduced-motion:no-preference) {
+  .nxhd-dd-panel > a { opacity:0; transform:translateY(10px); transition:opacity .15s ease, transform .15s ease, background-color .2s ease; }
+  .nxhd-dd:hover > .nxhd-dd-panel > a, .nxhd-dd:focus-within > .nxhd-dd-panel > a, .nxhd-dd.is-open > .nxhd-dd-panel > a {
+    opacity:1; transform:none; transition:opacity .45s ease var(--nxp-d,0ms), transform .6s var(--nxp-ease) var(--nxp-d,0ms), background-color .2s ease; }
+  .nxhd-dd-panel > a:nth-child(1) { --nxp-d:50ms; }
+  .nxhd-dd-panel > a:nth-child(2) { --nxp-d:115ms; }
+  .nxhd-dd-panel > a:nth-child(3) { --nxp-d:180ms; }
+  .nxhd-dd-panel > a:nth-child(4) { --nxp-d:245ms; }
+  /* Phone menu: same idea, lighter */
+  .nxhd-mobile:not([hidden]) { animation:nxp-drop .38s var(--nxp-ease) both; }
+  .nxhd-mobile:not([hidden]) > * { animation:nxp-rise .5s var(--nxp-ease) both; animation-delay:calc(var(--nxp-n,0) * 32ms + 40ms); }
+  .nxhd-mobile > :nth-child(2) { --nxp-n:1; } .nxhd-mobile > :nth-child(3) { --nxp-n:2; } .nxhd-mobile > :nth-child(4) { --nxp-n:3; }
+  .nxhd-mobile > :nth-child(5) { --nxp-n:4; } .nxhd-mobile > :nth-child(6) { --nxp-n:5; } .nxhd-mobile > :nth-child(7) { --nxp-n:6; }
+  .nxhd-mobile > :nth-child(8) { --nxp-n:7; } .nxhd-mobile > :nth-child(9) { --nxp-n:8; } .nxhd-mobile > :nth-child(10) { --nxp-n:9; }
+  .nxhd-mobile > :nth-child(11) { --nxp-n:10; } .nxhd-mobile > :nth-child(n+12) { --nxp-n:11; }
+}
+@keyframes nxp-rise { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+@keyframes nxp-drop { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:none; } }
+@keyframes nxp-hero { from { opacity:.01; transform:translateY(22px); } to { opacity:1; transform:none; } }
+@keyframes nxp-art { from { opacity:.01; transform:translateY(26px) scale(.975); } to { opacity:1; transform:none; } }
+
+/* Navbar hover details */
+.nxhd-logo img { transition:opacity .25s ease; }
+.nxhd-logo:hover img { opacity:.72; }
+.nxhd-shop-tile img { transition:transform .6s var(--nxp-ease), filter .3s ease; }
+.nxhd-shop-tile:hover img { transform:scale(1.025); filter:brightness(1.04); }
+.nxhd-dd-panel a.nxhd-shop-all span { display:inline-block; transition:transform .3s var(--nxp-ease); }
+.nxhd-dd-panel a.nxhd-shop-all:hover span { transform:translateX(4px); }
+.nxhd-dd-panel .nxhd-ico { transition:background-color .25s ease, transform .4s var(--nxp-ease); }
+.nxhd-dd-panel a:hover .nxhd-ico { background:rgba(var(--nxp-cyan),.32); transform:translateY(-2px); }
+.nxhd-btn { transition:transform .25s var(--nxp-ease), background-color .2s ease, border-color .2s ease, box-shadow .25s ease; }
+.nxhd-btn-primary:hover { box-shadow:0 10px 22px -12px rgba(var(--nxp-cyan),.95); }
+.nxhd-cart .svg-wrapper { transition:transform .3s var(--nxp-ease); }
+.nxhd-cart:hover .svg-wrapper { transform:translateY(-1px) scale(1.06); }
+
+/* ---------- 3. Page heroes rise in on load (CSS only, so no script is needed and nothing flashes) ---------- */
+@media (prefers-reduced-motion:no-preference) {
+  .nxh-page-hero h1, .nxh-page-hero .nxh-lead, .nxh-page-hero .nxh-hero-actions, .nxh-page-hero .nxh-hero-trust, .nxh-page-hero .nxq-hero-meta,
+  .nxh-shop-hero h1, .nxh-shop-hero p, .nxh-pdp .nxh-product-info > h1, .nxh-pdp .nxh-product-info > .nxh-product-tagline, .nxh-pdp .nxh-buybox {
+    animation:nxp-hero .9s var(--nxp-ease) both; }
+  .nxh-page-hero h1, .nxh-shop-hero h1, .nxh-pdp .nxh-product-info > h1 { animation-delay:.05s; }
+  .nxh-page-hero .nxh-lead, .nxh-shop-hero p, .nxh-pdp .nxh-product-info > .nxh-product-tagline { animation-delay:.14s; }
+  .nxh-page-hero .nxh-hero-actions, .nxh-pdp .nxh-buybox { animation-delay:.23s; }
+  .nxh-page-hero .nxh-hero-trust, .nxh-page-hero .nxq-hero-meta { animation-delay:.32s; }
+  .nxh-pdp .nxh-buybox { animation-duration:.6s; animation-delay:.08s; }   /* the buy box is what people came for: in by 0.7 s (review notes, 2026-11-11) */
+  .nxh-page-hero .nxh-page-hero-art, .nxh-page-hero .nxq-hero-art, .nxh-pdp .nxh-gallery { animation:nxp-art 1.1s var(--nxp-ease) .12s both; }
+  .nxh-hero-logos .nxh-logo-tile { animation:nxp-hero .8s var(--nxp-ease) both; animation-delay:calc(.2s + var(--nxp-n,0) * 70ms); }
+  .nxh-hero-logos .nxh-logo-tile:nth-child(2) { --nxp-n:1; } .nxh-hero-logos .nxh-logo-tile:nth-child(3) { --nxp-n:2; } .nxh-hero-logos .nxh-logo-tile:nth-child(4) { --nxp-n:3; }
+  .nxh-hero-logos .nxh-logo-tile:nth-child(5) { --nxp-n:4; } .nxh-hero-logos .nxh-logo-tile:nth-child(6) { --nxp-n:5; } .nxh-hero-logos .nxh-logo-tile:nth-child(n+7) { --nxp-n:6; }
+  /* The backdrop glow breathes in once */
+  .nxh-page-hero > .nxh-hero-bg { animation:nxp-bg 1.6s ease both; }
+}
+@keyframes nxp-bg { from { opacity:.35; } to { opacity:1; } }
+
+/* ---------- 4. Scroll into view (classes set by nx-polish.js, removed again once shown) ---------- */
+.nxp-reveal { opacity:0; transform:translateY(22px); }
+.nxp-reveal.nxp-in { opacity:1; transform:none; transition:opacity .8s ease var(--nxp-d,0ms), transform .95s var(--nxp-ease) var(--nxp-d,0ms); }
+@media print { .nxp-reveal { opacity:1 !important; transform:none !important; } }
+
+/* ---------- 5. Hover states where there were none ---------- */
+/* Text links */
+.nxh-root p a:not(.nxh-btn), .nxh-root li a:not(.nxh-btn):not([class]), .nxh-root small a, .nxh-root .nxh-currency a {
+  text-decoration-thickness:1px; text-underline-offset:3px; transition:color .2s ease, text-decoration-color .2s ease; }
+.nxh-root p a:not(.nxh-btn):hover, .nxh-root li a:not(.nxh-btn):not([class]):hover, .nxh-root small a:hover, .nxh-root .nxh-currency a:hover { color:#1595a8; text-decoration-color:rgb(var(--nxp-cyan)); }
+.nxh-page-hero p a:not(.nxh-btn):hover, .nxh-closing p a:not(.nxh-btn):hover, .nxh-dev p a:not(.nxh-btn):hover, .nxh-dev li a:hover { color:rgb(var(--nxp-cyan)); }
+/* Buttons: a soft lift of light under the primary action */
+.nxh-root .nxh-btn-primary:hover { box-shadow:0 12px 26px -14px rgba(var(--nxp-cyan),.95); }
+.nxh-root .nxh-btn-dark:hover { box-shadow:0 12px 26px -14px rgba(14,27,77,.7); }
+.nxh-root .nxh-btn-outline:hover { background:var(--navy,#0e1b4d); color:#fff; }
+.nxh-root .nxh-btn-ghost:hover { background:rgba(14,27,77,.04); }
+.nxh-root .nxh-btn:focus-visible, .nxhd a:focus-visible, .nxhd button:focus-visible, .nxft a:focus-visible { outline:2px solid rgb(var(--nxp-cyan)); outline-offset:3px; }
+/* FAQ rows */
+.nxh-root details > summary { transition:color .2s ease; }
+.nxh-root details > summary:hover { color:#1595a8; }
+.nxh-faq-list summary::after { transition:transform .35s var(--nxp-ease), margin-top .35s var(--nxp-ease), border-color .2s ease; }
+.nxh-faq-list details:not([open]) summary:hover::after { transform:translateY(2px) rotate(45deg); }
+@media (prefers-reduced-motion:no-preference) {
+  .nxh-root details[open] > summary ~ * { animation:nxp-rise .45s var(--nxp-ease) both; }
+}
+/* Product gallery and steppers */
+.nxh-gallery-main { transition:box-shadow .3s ease, border-color .3s ease; }
+button.nxh-gallery-main:hover { border-color:rgba(var(--nxp-cyan),.6); }
+.nxh-gallery-main img { transition:transform .7s var(--nxp-ease); }
+button.nxh-gallery-main:hover img { transform:scale(1.02); }
+.nxh-thumb { transition:border-color .2s ease, transform .25s var(--nxp-ease); }
+.nxh-thumb:hover { border-color:rgba(var(--nxp-cyan),.7); transform:translateY(-2px); }
+.nxh-root .nxh-stepper button { transition:background-color .2s ease, color .2s ease, transform .2s var(--nxp-ease); }
+.nxh-root .nxh-stepper button:hover:not(:disabled) { background:var(--navy,#0e1b4d); color:#fff; }
+.nxh-root .nxh-stepper button:active:not(:disabled) { transform:scale(.94); }
+/* Shop cards */
+.nxh-shop .nxh-pcard { transition:box-shadow .35s ease, transform .35s var(--nxp-ease); }
+.nxh-shop .nxh-pcard-media img { transition:transform .8s var(--nxp-ease); }
+.nxh-shop .nxh-pcard:hover .nxh-pcard-media img { transform:scale(1.03); }
+.nxh-shop .nxh-pcard h2 a { transition:color .2s ease; }
+.nxh-shop .nxh-pcard h2 a:hover { color:#1595a8; }
+.nxh-guide-go, .nxh-res-card .nxh-guide-go { transition:color .2s ease; }
+.nxh-guide:hover .nxh-guide-go, .nxh-res-card:hover .nxh-guide-go { color:#1595a8; }
+.nxh-res-card:hover { border-color:rgba(var(--nxp-cyan),.55); }
+.nxh-bio-btn { transition:border-color .2s ease, background-color .2s ease, color .2s ease; }
+.nxh-bio-btn:hover { background:var(--navy,#0e1b4d); color:#fff; }
+/* Cards everywhere: the same quiet response (border warms to cyan, soft shadow). No jumpy lifts on cards that are not links. */
+.nxh-card, .nxh-step, .nxh-quote, .nxh-person, .nxq-card { transition:border-color .3s ease, box-shadow .35s ease, transform .35s var(--nxp-ease); }
+.nxh-card:not(.nxh-card--dark):hover, .nxh-step:hover, .nxh-quote:hover, .nxh-person:hover, .nxq-card:hover { border-color:rgba(var(--nxp-cyan),.55); box-shadow:0 18px 40px -28px rgba(14,27,77,.45); }
+.nxh-card--dark:hover { border-color:rgba(var(--nxp-cyan),.45); background:rgba(255,255,255,.09); }
+.nxh-benefit:hover, .nxh-logo-tile:hover, a.nxh-contact-option:hover { border-color:rgba(var(--nxp-cyan),.6); }
+.nxh-card .nxh-ico, .nxh-benefit .nxh-ico, .nxx-job .nxh-ico, .nxh-contact-option .nxh-ico { transition:transform .45s var(--nxp-ease); }
+.nxh-card:hover .nxh-ico, .nxh-benefit:hover .nxh-ico, .nxx-job:hover .nxh-ico, a.nxh-contact-option:hover .nxh-ico { transform:translateY(-3px); }
+/* Table rows */
+.nxh-root .nxh-compare tbody tr, .nxh-root .nxh-specs tr { transition:background-color .2s ease; }
+.nxh-root .nxh-compare tbody tr:hover { background:rgba(var(--nxp-cyan),.06); }
+/* Form fields */
+.nxh-root input:not([type=radio]):not([type=checkbox]):not([type=range]), .nxh-root textarea, .nxh-root select, .nxft input { transition:border-color .2s ease, box-shadow .2s ease, background-color .2s ease; }
+.nxh-root input:not([type=radio]):not([type=checkbox]):not([type=range]):hover, .nxh-root textarea:hover, .nxh-root select:hover, .nxft input:hover { border-color:rgba(var(--nxp-cyan),.7); }
+/* Footer */
+.nxft a { transition:color .2s ease; }
+.nxft-social a, .nxft .nxft-social a { transition:transform .3s var(--nxp-ease), background-color .2s ease, color .2s ease; }
+.nxft-social a:hover { transform:translateY(-2px); }
+
+/* ---------- 6. Alignment and consistency ---------- */
+/* Anchors stop below the floating navbar */
+.nxh-root [id] { scroll-margin-top:104px; }
+/* Homepage plans: both cards the same width (was 440 and 400) */
+@media (min-width:761px) { .nxh-root.nxx .nxx-plans { grid-template-columns:repeat(2, minmax(0,420px)); } }
+/* Card grids: every card in a grid takes the height of the tallest one */
+.nxh-benefit-grid, .nxh-steps, .nxh-grid-2x2, .nxh-guides, .nxh-res-grid, .nxh-team-grid, .nxx-jobs-grid { grid-auto-rows:1fr; }
+/* Card titles: one size (they ran from 18 to 22px) */
+.nxh-root .nxx-jobs .nxx-job h3, .nxh-root .nxx-floor .nxh-benefit h3, .nxh-root .nxh-team-grid:not(.nxh-advisors) .nxh-person h3, .nxh-root .nxh-res-card h3, .nxh-root .nxh-guide h3 { font-size:20px; line-height:1.15; letter-spacing:-.01em; }
+/* Section titles: the glance title and the shop title join the common scale */
+@media (min-width:1100px) {
+  .nxh-root .nxx-glance h2 { font-size:46px; letter-spacing:-.02em; }
+  .nxh-root.nxh-shop .nxh-shop-hero h1 { font-size:48px; }
+}
+/* Integrations hero: partners without a logo file were pale text on a white tile */
+.nxh-hero-logos .nxh-logo-tile { color:var(--navy,#0e1b4d); font-weight:600; font-size:15px; text-align:center; }
+/* "Building your own integration?" card was cut off on phones (the code sample forced the column wider than the screen) */
+.nxh-dev > * { min-width:0; }
+.nxh-dev pre, .nxh-root pre.nxh-code { max-width:100%; overflow-x:auto; }
+@media (max-width:1000px) { .nxh-dev { grid-template-columns:minmax(0,1fr); } }
+@media (max-width:760px) { .nxh-dev .nxh-hero-actions .nxh-btn { white-space:normal; text-align:center; } }
+/* Desktop product pages: the chat button covered the buy bar's button; it shrinks to its icon while the bar is up */
+@media (min-width:761px) {
+  body:has(.nxh-buybar.is-on) .nxc-launch span { display:none; }
+  body:has(.nxh-buybar.is-on) .nxc-launch { width:56px; padding:0; justify-content:center; }
+  body:has(.nxh-buybar.is-on) .nxh-buybar-inner { padding-right:76px; }
+}
+/* Very small phones (320px): the navbar and a few blocks were wider than the screen */
+@media (max-width:360px) {
+  .nxhd-pill { padding-left:12px; gap:4px; }
+  .nxhd-logo img { height:22px; }
+  .nxhd-actions { gap:2px; }
+  .nxhd .nxhd-btn-primary { padding-inline:12px; }
+  .nxhd-menu-btn { width:40px; height:40px; }
+  .nxhd-menu-btn span { left:11px; right:11px; }
+  .nxhd-menu-btn span:first-child { top:16px; } .nxhd-menu-btn span:last-child { top:23px; }
+}
+/* Grid columns may shrink below their content's natural width (the cause of the 320px overflows on product, pricing and guide pages) */
+@media (max-width:1000px) {
+  .nxh-product-grid { grid-template-columns:minmax(0,1fr); }
+  .nxh-product-grid > *, .nxh-buybox > *, .nxh-plans > *, .nxq-main > *, .nxq-body > * { min-width:0; }
+}
+@media (max-width:360px) {
+  .nxhd-pill { padding-left:10px; padding-right:4px; }
+  .nxhd .nxhd-btn-primary { padding-inline:10px; font-size:14px; }
+  .nxhd-icon { width:38px; }
+}
+.nxq .nxq-two > *, .nxq .nxq-note > *, .nxq .nxq-note--one { min-width:0; }
+.nxq .nxq-note--one { grid-template-columns:minmax(0,1fr); }
+@media (max-width:1000px) { .nxq .nxq-two { grid-template-columns:minmax(0,1fr); } }
+/* Phones: the Annual tab's badge wraps under the word instead of pushing the tabs wider than the buy box (CAD: "Save CA$140 per
+   device" overflowed at 375 px). Both product pages (.nxh-pdp covers the Extero page too), 2026-11-11.
+   .nxh-root.nxh-pdp: these must beat the pages' own inline rules, which load later. */
+@media (max-width:480px) {
+  .nxh-root.nxh-pdp .nxh-toggles .nxh-bill { min-width:0; }
+  .nxh-root.nxh-pdp .nxh-bill { grid-template-columns:minmax(0,1.7fr) minmax(0,1fr); }
+  .nxh-root.nxh-pdp .nxh-bill label { min-width:0; }
+  .nxh-root.nxh-pdp .nxh-bill span { flex-wrap:wrap; gap:2px 6px; padding-inline:6px; }
+}
+@media (max-width:380px) {
+  .nxh-root.nxh-pdp .nxh-bill span { font-size:14px; }
+  .nxh-root.nxh-pdp .nxh-bill em { white-space:normal; text-align:center; line-height:1.2; }
+}
+/* Currency switch on both product pages: a small outlined control, so it no longer looks like a second Annual / Monthly
+   (Lucas, 2026-11-13). Billing keeps the solid navy tab; currency is a light setting: white, thin border, cyan for the
+   active one, shorter and narrower. .nxh-root.nxh-pdp beats the pages' inline rules. */
+.nxh-root.nxh-pdp .nxh-toggles { align-items:center; }
+.nxh-root.nxh-pdp .nxh-toggles .nxh-cur { flex:0 0 auto; }
+.nxh-root.nxh-pdp .nxh-cur { display:inline-grid; grid-template-columns:auto auto; gap:0; padding:0; border:1px solid var(--line,#dfe3ee); border-radius:8px; background:#fff; overflow:hidden; }
+.nxh-root.nxh-pdp .nxh-cur label + label { border-left:1px solid var(--line,#dfe3ee); }
+.nxh-root.nxh-pdp .nxh-cur span { min-height:32px; padding:4px 12px; border-radius:0; font-size:13px; font-weight:600; letter-spacing:.04em; color:var(--muted,#5b6478); box-shadow:none; transition:background-color .2s ease, color .2s ease; }
+.nxh-root.nxh-pdp .nxh-cur label:hover span { color:var(--navy,#0e1b4d); }
+.nxh-root.nxh-pdp .nxh-cur input:checked + span { background:rgba(55,194,214,.16); color:var(--navy,#0e1b4d); font-weight:700; box-shadow:inset 0 -2px 0 var(--cyan,#37c2d6); }
+.nxh-root.nxh-pdp .nxh-cur input:focus-visible + span { outline:2px solid var(--cyan,#37c2d6); outline-offset:-2px; }
+/* Guide controls and the phone menu button */
+.nxq .nxq-shots-nav button { transition:background-color .2s ease, color .2s ease, border-color .2s ease, transform .25s var(--nxp-ease); }
+.nxq .nxq-shots-nav button:hover:not(:disabled) { background:var(--navy,#0e1b4d); color:#fff; border-color:var(--navy,#0e1b4d); }
+.nxq .nxq-video button span { transition:transform .4s var(--nxp-ease), box-shadow .3s ease; }
+.nxq .nxq-video button:hover span { transform:scale(1.08); box-shadow:0 0 0 10px rgba(var(--nxp-cyan),.18); }
+/* The video poster is a navy panel too: it gets the same square grid as every navy band */
+.nxq .nxq-video button { background-image:linear-gradient(rgba(var(--nxp-cyan),.09) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--nxp-cyan),.09) 1px, transparent 1px), radial-gradient(70% 90% at 50% 50%, #1b2d6e 0%, #0e1b4d 70%); background-size:56px 56px, 56px 56px, auto; }
+.nxh-quote-featured { background-image:linear-gradient(rgba(var(--nxp-cyan),.09) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--nxp-cyan),.09) 1px, transparent 1px); background-size:56px 56px; }
+.nxq .nxq-side a { transition:color .2s ease, background-color .2s ease, border-color .2s ease; }
+.nxhd-menu-btn { transition:background-color .2s ease; }
+.nxhd-menu-btn:hover { background:#e4e8f1; }
+/* "Built for the floor" (Lucas, 2026-11-09): the photo and the text column share the same top and bottom edge.
+   The columns stretch to one height and the photo fills its column instead of keeping a fixed 4:5 shape. */
+@media (min-width:1001px) {
+  .nxh-root .nxx-floor-grid { align-items:stretch; }
+  .nxh-root .nxx-floor-photo { height:100%; min-height:0; }
+  .nxh-root .nxx-floor-photo img { position:absolute; inset:0; width:100%; height:100%; aspect-ratio:auto; }
+  .nxh-root .nxx-floor-grid > div { display:flex; flex-direction:column; }
+  .nxh-root .nxx-floor-grid > div > :first-child { margin-top:0; }
+  .nxh-root .nxx-floor-grid > div > :last-child { margin-bottom:0; }
+  .nxh-root .nxx-floor .nxh-benefit-grid { flex:1; }
+}
+/* "Clinic AI suite" card (Lucas, 2026-11-09): more air between the tag, the title, the price line and the list */
+.nxh-root .nxx-included h3 { margin:16px 0 12px; }
+.nxh-root .nxx-included .nxx-free { margin:0 0 20px; }
+.nxh-root .nxx-included ul { margin-top:0; padding-top:22px; gap:12px; }
+/* Pricing page: Annual and Monthly cards share width, top and bottom (they were 440 and 380 wide, and 31px apart at each end) */
+@media (min-width:761px) { .nxh-root .nxh-plans { grid-template-columns:repeat(2, minmax(0,420px)); align-items:stretch; } }
+/* Easing fixes (Lucas, 2026-11-09). The product page sets its own "transition:opacity" on the main photo, which made the hover zoom jump:
+   both properties are listed here, with more weight than that rule. */
+.nxh-root .nxh-pdp .nxh-gallery-main img, .nxh-root.nxh-extero .nxh-gallery-main img, .nxh-root .nxh-gallery-main img { transition:opacity .25s ease, transform .8s var(--nxp-ease); }
+/* Cards that carry the site's scroll reveal only animated opacity and transform, so their border and shadow snapped on hover.
+   Once shown they ease every hover property; the lift itself is quicker than the .8s entrance. */
+.nxh-root.nxh-js .nxh-reveal.nxh-in-view { transition:opacity .8s var(--ease), transform .5s var(--nxp-ease), border-color .35s ease, box-shadow .45s ease, background-color .35s ease; }
+.nxh-root .nxh-quote { transition:border-color .35s ease, box-shadow .45s ease, transform .5s var(--nxp-ease); }
+.nxh-root .nxh-quote:hover { transform:translateY(-3px); }
+/* Navbar links: a small gap, so two highlighted links (hover next to the current page) never touch (Lucas, 2026-11-09) */
+.nxhd .nxhd-nav > ul { gap:6px; }
+.nxh-root .nxh-plan ul { align-content:start; }   /* in the taller card the list stays packed at the top; the button sits at the bottom */
+/* Extero guide, "Your device at a glance" (Lucas, 2026-11-09): the photo sat small in the middle of a tall column of six cards plus a tip.
+   Now the photo and the list are two columns of the same height, the list is one calm panel with dividers instead of six cards,
+   and the "About taps" tip runs full width underneath. Same content, same order. */
+@media (min-width:1001px) {
+  .nxq .nxq-glance:not(.nxq-glance--text) { grid-template-columns:minmax(0,1.35fr) minmax(0,1fr); align-items:stretch; gap:22px clamp(24px,3vw,40px); }
+  .nxq .nxq-glance:not(.nxq-glance--text) > div { display:contents; }
+  /* The photo keeps its own shape (the numbered pins are placed in % of it, so it is never cropped); on narrower screens, where the list gets taller, it centres beside the list */
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-callouts { align-self:center; }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-controls { gap:0; align-content:space-between; padding:6px 22px; border-radius:var(--radius,12px); background:#fff; border:1px solid var(--line); }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-controls li { padding:8px 0; border:0; border-radius:0; background:none; border-bottom:1px solid var(--line); align-items:center; }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-controls li:last-child { border-bottom:0; }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-controls span { font-size:14px; line-height:1.45; display:block; }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-tip { grid-column:1 / -1; margin-top:0; }
+}
+/* Less bold on the guides (Lucas, 2026-11-09): only titles stay bold. The side menu, pin labels, table labels and small badges drop to semibold. */
+.nxq .nxq-side a { font-weight:600; }
+.nxq .nxq-side a.nxq-on { font-weight:700; }
+.nxq .nxq-side strong { font-weight:700; }
+.nxq .nxq-pin::after { font-weight:600; }
+.nxq .nxq-controls strong { font-weight:700; font-size:16px; }
+.nxq .nxq-tip p strong, .nxq .nxq-note strong { font-weight:700; }
+.nxq .nxq-table td b, .nxq .nxq-table th { font-weight:600; }
+/* Between 1001 and 1199px the guide's column is too narrow for photo and list side by side: the photo sits above the list */
+@media (min-width:1001px) and (max-width:1199px) {
+  .nxq .nxq-glance:not(.nxq-glance--text) { grid-template-columns:minmax(0,1fr); }
+  .nxq .nxq-glance:not(.nxq-glance--text) .nxq-callouts { width:min(440px,100%); justify-self:center; }
+}
+/* Product pages (Lucas, 2026-11-09): more room under the navbar, and the title's capitals start on the same line as the top of the photo */
+@media (min-width:1001px) {
+  .nxh-root.nxh-pdp .nxh-product-hero { padding-top:calc(86px + 76px); }
+  .nxh-root.nxh-pdp .nxh-product-info > h1 { margin-top:-.19em; }
+  @supports (text-box-trim: trim-start) {
+    .nxh-root.nxh-pdp .nxh-product-info > h1 { margin-top:0; text-box-trim:trim-start; text-box-edge:cap alphabetic; }
+  }
+}
+/* ---------- Less bold, site-wide (Lucas, 2026-11-09) ----------
+   Bold (700) stays on titles, buttons and prices. Everything that was bold only as a label drops to semibold (600):
+   FAQ questions, table labels, navbar and footer links, quotes, text links, form labels, tags, inline emphasis.
+   layout/theme.liquid loads the 600 file of the body font for this. "body" raises these over the page stylesheets, which load later. */
+body .nxh-root summary, body .nxh-root th, body .nxh-root blockquote, body .nxh-root label.nxh-field,
+body .nxh-root b, body .nxh-root strong, body .nxh-root .nxh-text-link,
+body .nxh-root .nxh-person-role, body .nxh-root .nxh-guide-go, body .nxh-root .nxh-guide-tag, body .nxh-root .nxh-chip,
+body .nxh-root .nxx-scribe-lead, body .nxh-root .nxh-shot > span,
+body .nxh-root .nxq-gest, body .nxh-root .nxq-shot-step, body .nxh-root .nxs-go, body .nxh-root .nxq-step-led, body .nxh-root .nxq-cell > span:not(.nxq-led), body .nxh-root .nxq-eyebrow,
+body .nxhd .nxhd-nav > ul > li > a, body .nxhd .nxhd-dd > button, body .nxhd .nxhd-login, body .nxhd .nxhd-dd-panel strong, body .nxhd .nxhd-mobile a:not(.nxhd-btn), body .nxhd .nxhd-mobile-group,
+body .nxft h2, body .nxft strong { font-weight:600; }
+/* Kept bold: anything inside a title or a button, and every price figure */
+body .nxh-root :is(h1,h2,h3,h4) :is(b,strong,a), body .nxh-root :is(.nxh-btn,button) :is(b,strong),
+body .nxh-root [class*="price"] :is(b,strong), body .nxh-root .nxh-due :is(b,strong), body .nxh-root .nxx-free b, body .nxh-root .nxh-plan-opt-top strong,
+body .nxh-root .nxh-buybar-text strong, body .nxh-root .nxh-stepper input, body .nxh-root .nxq-controls li > b, body .nxh-root .nxq-pin { font-weight:700; }
+.nxh-grid-2 > *, .nxh-contact-grid > * { min-width:0; }
+.nx-captcha-note { overflow-wrap:anywhere; }
