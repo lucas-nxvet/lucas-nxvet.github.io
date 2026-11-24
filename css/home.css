@@ -67,7 +67,7 @@
 .xo-ind:hover img{transform:scale(1.04)}
 /* Where a frame is cropped, so the device stays above the label */
 .xo-ind[data-ind=healthcare]{--pos:100%}
-.xo-ind[data-ind=emergency-services]{--pos:40%}
+.xo-ind[data-ind=emergency-services],.xo-ind[data-ind=veterinary]{--pos:40%}
 .xo-ind-cap{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-direction:column;gap:1px;padding:10px 13px;border-radius:8px;background:rgba(255,255,255,.95)}
 .xo-ind-cap strong{font-size:17px;line-height:1.25;font-weight:700}
 .xo-ind-cap em{font-style:normal;font-size:14px;font-weight:700;color:#1595a8}
