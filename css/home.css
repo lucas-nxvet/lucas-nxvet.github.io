@@ -70,9 +70,7 @@
 .xo-ind[data-ind=emergency-services],.xo-ind[data-ind=veterinary]{--pos:40%}
 .xo-ind-cap{position:absolute;left:10px;right:10px;bottom:10px;display:flex;flex-direction:column;gap:1px;padding:10px 13px;border-radius:8px;background:rgba(255,255,255,.95)}
 .xo-ind-cap strong{font-size:17px;line-height:1.25;font-weight:700}
-.xo-ind-cap em{font-style:normal;font-size:14px;font-weight:700;color:#1595a8}
-.xo-ind-more{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 12px;margin:32px 0 0;color:var(--muted)}
-.xo-ind-more .nxh-text-link{margin-left:0}
+.xo-ind-cap em{font-style:normal;font-size:14px;font-weight:700;color:#0e7f90}   /* a darker cyan: 4.7 to 1 on the white label */
 @media (prefers-reduced-motion:reduce){.xo-ind,.xo-ind img,.xo-job-img{transition:none}.xo-ind:hover,.xo-ind:hover img,.xo .nxx-job:hover .xo-job-img{transform:none}}
 
 /* ---------- Small corners on the pieces the theme rounds more (Lucas, 2026-11-03) ---------- */

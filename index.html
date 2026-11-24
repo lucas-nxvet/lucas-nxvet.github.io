@@ -30,12 +30,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero-poster.webp" media="(min-width: 761px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/video/hero-poster-480.webp" media="(max-width: 760px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/site.css">
-<link rel="stylesheet" href="/assets/theme/nx-home.css">
-<link rel="stylesheet" href="/assets/theme/nx-extero-theme.css">
-<link rel="stylesheet" href="/assets/theme/nx-extero-home.css">
-<link rel="stylesheet" href="/assets/theme/nx-polish.css">
-<link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/site.css?v=a776d7af">
+<link rel="stylesheet" href="/assets/theme/nx-home.css?v=b2668781">
+<link rel="stylesheet" href="/assets/theme/nx-extero-theme.css?v=0bd01b08">
+<link rel="stylesheet" href="/assets/theme/nx-extero-home.css?v=05bd329d">
+<link rel="stylesheet" href="/assets/theme/nx-polish.css?v=e7da2233">
+<link rel="stylesheet" href="/css/home.css?v=c82c51df">
 </head>
 <!--
   extero.ai homepage (task 101). Built on nx.vet's own stylesheets and scripts (verbatim copies in assets/theme/).
@@ -49,6 +49,7 @@
 <body data-demo-url="https://calendar.app.google/ThBtd39a37VWiKsW6">
 
 <header class="hd" id="hd">
+  <a class="hd-skip" href="#main">Skip to content</a>
   <div class="hd-bar">
     <a class="hd-logo" href="/" aria-label="Extero, home"><span class="xmark" aria-hidden="true"></span></a>
     <nav class="hd-nav" aria-label="Main">
@@ -65,7 +66,6 @@
           <a class="hd-ind" href="/manufacturing/" data-nav-ind="manufacturing" style="--i:5"><span class="hd-ind-img"><img src="/assets/img/nav-manufacturing.webp" alt="" width="240" height="240" loading="lazy" decoding="async"></span><strong>Manufacturing</strong></a>
           <a class="hd-ind" href="/construction/" data-nav-ind="construction" style="--i:6"><span class="hd-ind-img"><img src="/assets/img/nav-construction.webp" alt="" width="240" height="240" loading="lazy" decoding="async"></span><strong>Construction</strong></a>
           <a class="hd-ind" href="/emergency-services/" data-nav-ind="emergency-services" style="--i:7"><span class="hd-ind-img"><img src="/assets/img/nav-emergency-services.webp" alt="" width="240" height="240" loading="lazy" decoding="async"></span><strong>Emergency services</strong></a>
-          <a class="hd-dd-all" href="#" data-demo>Your industry? Talk to us <span aria-hidden="true">&rarr;</span></a>
         </div>
       </div>
       <a href="#faq">FAQ</a>
@@ -97,7 +97,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
 <div class="nxh-root nxx nxx-light nxx-pre xo" style="--nxx-device:url('/assets/theme/nx-extero-device-480.webp');--nxx-led-mask:url('/assets/theme/nx-extero-led-mask.png')">
 
 <!-- ATTENTION: the product, worn in several industries -->
@@ -187,7 +187,6 @@
       <a class="xo-ind nxh-reveal" href="/construction/" data-ind="construction"><img src="/assets/img/ind-construction.webp" width="600" height="900" loading="lazy" decoding="async" alt="A site supervisor in a hard hat holds a drawing, Extero clipped to his safety vest"><span class="xo-ind-cap"><strong>Construction</strong><em>Learn more</em></span></a>
       <a class="xo-ind nxh-reveal" href="/emergency-services/" data-ind="emergency-services"><img src="/assets/img/ind-emergency.webp" width="600" height="900" loading="lazy" decoding="async" alt="A paramedic checks a kit bag beside the ambulance, Extero clipped to her uniform with its ring green"><span class="xo-ind-cap"><strong>Emergency services</strong><em>Learn more</em></span></a>
     </div>
-    <p class="xo-ind-more nxh-reveal"><a class="nxh-text-link" href="#" data-demo>Your industry? Talk to us</a></p>
   </div>
 </section>
 
@@ -439,9 +438,9 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Extero", "url": "https://extero.ai/", "logo": "https://extero.ai/assets/theme/nx-extero-wordmark.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Extero", "url": "https://extero.ai/"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Extero?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is the AI wearable for hands-on teams. It clips on, with a microphone and a speaker built in. Take notes hands-free, talk to your team and ask AI. No phone needed."}}, {"@type": "Question", "name": "Is Extero a walkie-talkie?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Push-to-talk between staff, from the same device, on your site Wi-Fi. Messages play from its speaker."}}, {"@type": "Question", "name": "Do I need a phone?", "acceptedAnswer": {"@type": "Answer", "text": "No. Extero is battery-powered and works on your site Wi-Fi, with no phone and no pairing."}}, {"@type": "Question", "name": "Does Extero work with my software?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use Extero with your existing software: you can send recordings anywhere with the API, webhooks or the MCP server."}}, {"@type": "Question", "name": "Who decides when it records?", "acceptedAnswer": {"@type": "Answer", "text": "Your staff. One press routes speech to the record, the team or AI. Staff control when it records."}}, {"@type": "Question", "name": "Can staff share one Extero?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each person checks in on the device, so you still know who said what."}}, {"@type": "Question", "name": "When will my Extero ship?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is on pre-order: your order joins our next shipping batch, and we email you tracking as soon as it ships."}}, {"@type": "Question", "name": "How do I order?", "acceptedAnswer": {"@type": "Answer", "text": "On the Extero page, choose your billing period and number of devices, then continue to checkout. You enter your shipping address, pick a delivery option and pay by card on our secure Stripe checkout."}}, {"@type": "Question", "name": "Where is Extero made?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is designed, assembled and tested in Canada."}}]}</script>
-<script src="/js/site.js" defer></script>
-<script src="/assets/theme/nx-extero-home.js" defer></script>
-<script src="/assets/theme/nx-polish.js" defer></script>
-<script src="/js/widows.js" defer></script>
+<script src="/js/site.js?v=7668373e" defer></script>
+<script src="/assets/theme/nx-extero-home.js?v=ea100799" defer></script>
+<script src="/assets/theme/nx-polish.js?v=60e5123d" defer></script>
+<script src="/js/widows.js?v=6cb4b8d7" defer></script>
 </body>
 </html>
