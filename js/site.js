@@ -49,6 +49,9 @@
       if (!el || el.closest('#XoBooking') || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
       bookOpener = el;
+      // Counted as a lead by js/analytics.js (the same event name as nx.vet)
+      var zone = el.closest('header, footer, section, dialog');
+      window.dispatchEvent(new CustomEvent('nxvet:analytics', { detail: { event: 'demo_booking_open', placement: zone ? (zone.id || zone.className.split(' ')[0] || zone.tagName.toLowerCase()) : 'page' } }));
       if (!frame.getAttribute('src')) frame.src = EMBED;
       each('dialog[open], details.hd-menu[open]', function (d) { if (d !== dlg) { if (d.close) d.close(); else d.removeAttribute('open'); } });
       if (!dlg.open) dlg.showModal();
