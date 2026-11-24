@@ -275,6 +275,7 @@
   .nxh-extero .nxc-amount{margin:0;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
   .nxh-extero .nxc-amount strong{font-size:42px;line-height:1.1;letter-spacing:-.025em}
   .nxh-extero .nxc-amount > span{font-size:15px;font-weight:700;color:var(--muted)}
+  .nxh-extero .nxc-amount .nxc-was{font-size:24px;font-weight:700;color:var(--muted);letter-spacing:-.01em}
   .nxh-extero .nxc-sub{margin:6px 0 0;font-size:13px;line-height:1.45;color:var(--muted)}
   .nxh-extero .nxc-sub b{color:var(--navy)}
   /* Free first month of Team Intelligence, said right under the monthly amount while the box is ticked (Gerard, 2026-11-23:
@@ -454,8 +455,7 @@
               <p class="nxc-sub"><span data-device-row><span data-q-hw-label>1 device</span> × <s data-dev-was>$299</s> <b data-dev>$199</b>. </span><span data-due-note>Shipping and taxes added at checkout.</span></p>
             </div>
             <div class="nxc-block nxc-price-total" data-block="monthly">
-              <p class="nxc-block-title">Monthly price</p>
-              <p class="nxc-amount"><strong data-q-total>$19</strong> <span>per month</span></p><p class="nxc-free" data-ci-free hidden><b data-ci-free-lead>First month of Team Intelligence is free:</b><span data-ci-free-rest> $100 credit on your first plan invoice.</span></p>
+              <p class="nxc-block-title">Monthly price</p><p class="nxc-amount"><s class="nxc-was" data-q-total-was hidden></s><strong data-q-total>$19</strong> <span>per month</span></p><p class="nxc-free" data-ci-free hidden><b data-ci-free-lead>First month of Team Intelligence is free:</b><span data-ci-free-rest> $100 credit on your first plan invoice.</span></p>
               <p class="nxc-sub"><span data-q-bill>Billed $228 per year</span>. <span data-month-note>Starts when your first Extero is activated, not today.</span></p>
             </div>
             </div><div class="nxc-block nxc-billing" data-step-box="billing">
@@ -805,7 +805,12 @@
       q('[data-ci-free-lead]').textContent = BF ? bfLine[0] : (freeAsMonth ? 'First month ' + money(monthly - PRICES.ci) : 'First month of Team Intelligence is free:');
       q('[data-ci-free-rest]').textContent = BF ? bfLine[1] : (freeAsMonth ? ', then ' + money(monthly) + ' per month.' : (hasPlan ? ' a ' + money(PRICES.ci) + ' credit when it starts.' : ' ' + money(PRICES.ci) + ' credit on your first plan invoice.'));
       q('[data-q-vet]').textContent = money(vetMonthly) + '/month';
-      q('[data-q-total]').textContent = money(monthly);
+      // Black Friday: the first year of Team Intelligence is free, so the big amount leaves it out and the regular
+      // price is struck next to it (Lucas, 2026-11-24)
+      const bfCi = BF && withCi, firstYear = bfCi ? monthly - PRICES.ci : monthly;
+      q('[data-q-total]').textContent = money(firstYear);
+      q('[data-q-total-was]').hidden = !bfCi;
+      q('[data-q-total-was]').textContent = bfCi ? money(monthly) : '';
       q('[data-q-hw-list]').hidden = noHardware;
       q('[data-q-hw-label]').textContent = devTxt;
       q('[data-q-hw-line]').textContent = (n === 1 ? '1 Extero device' : n + ' Extero devices') + ' × ' + money(dev);
@@ -814,7 +819,7 @@
       // (Lucas and Tal, 2026-11-19: it replaces the "Saved with Annual billing" row)
       q('[data-q-hw-was]').hidden = !annual;
       q('[data-q-hw-was]').textContent = annual ? money(PRICES.device * n) : '';
-      q('[data-q-bill]').textContent = annual ? 'Billed ' + money(monthly * 12) + ' per year' : 'Billed monthly';
+      q('[data-q-bill]').textContent = annual ? (bfCi ? 'Billed ' + money(firstYear * 12) + ' for the first year, then ' + money(monthly * 12) + ' per year' : 'Billed ' + money(monthly * 12) + ' per year') : (bfCi ? 'Billed monthly, ' + money(monthly) + ' per month after the first year' : 'Billed monthly');
       q('[data-due]').textContent = money(due);
 
 
@@ -838,7 +843,7 @@
       const suiteTxt = (v === 0 ? '' : ' · Individual Intelligence on ' + v) + (withCi ? ' · Team Intelligence' : '');
       // Same text as one string; in parts so a phone can keep the monthly amount whole (see the bar's CSS).
       q('[data-bar-what]').textContent = devTxt + suiteTxt;
-      q('[data-bar-price]').textContent = money(monthly) + '/month';
+      q('[data-bar-price]').textContent = money(firstYear) + '/month';
       q('[data-bar-due]').textContent = noHardware ? '' : ' · ' + money(due) + (PREORDER ? ' once' : ' today');
       form.dataset.checkout = checkoutUrl();
       q('[data-currency-switch]').href = switchTo(IS_CAD ? 'usd' : 'cad');
