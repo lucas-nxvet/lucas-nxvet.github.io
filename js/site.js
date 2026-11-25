@@ -8,6 +8,8 @@
       cyan: it plays).
    6. Phone menu.
    7. Industries dropdown in the header (as on nx.vet).
+   8. Photos, cards and devices lean towards the pointer (mouse only, never with reduced motion).
+   9. Testimonials: one tab per person, the next one comes by itself until the visitor picks one.
    The device callouts come from nx.vet's own script (assets/theme/nx-extero-home.js). No cursor light on this site. */
 (function () {
   'use strict';
@@ -161,5 +163,111 @@
     closeDds(); if (document.activeElement && document.activeElement.closest && document.activeElement.closest('.hd-dd')) document.activeElement.blur();
     if (menu) menu.removeAttribute('open');
   });
+
+  // 8. Leaning towards the pointer (after lupapets.com; Lucas, 2026-11-25: "mouse elements moving"). The pointer's place
+  //    over "area" (-1 to 1 on each axis) turns "el" a few degrees and shifts it a few pixels, with a little lag. Only the
+  //    CSS properties "rotate" and "translate" are written, so the element's own transforms (rise-in, hover) still work.
+  //    Depth comes from "perspective" on the parents (css/home.css). One animation frame loop per element, only while it moves.
+  var fine = window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (fine && !reduce && window.requestAnimationFrame && 'rotate' in document.documentElement.style) {
+    var boxes = [];
+    var lean = function (area, el, deg, shift, also) {
+      var tx = 0, ty = 0, x = 0, y = 0, raf = 0, box = null;
+      var frame = function () {
+        x += (tx - x) * 0.12; y += (ty - y) * 0.12;
+        var rest = !tx && !ty && Math.abs(x) + Math.abs(y) < 0.004;
+        if (rest) x = y = 0;
+        var m = Math.sqrt(x * x + y * y);
+        el.style.rotate = rest ? '' : (-y).toFixed(3) + ' ' + x.toFixed(3) + ' 0 ' + (m * deg).toFixed(2) + 'deg';
+        if (shift) el.style.translate = rest ? '' : (x * shift).toFixed(1) + 'px ' + (y * shift).toFixed(1) + 'px';
+        if (also) also(x, y, rest);
+        raf = rest || Math.abs(tx - x) + Math.abs(ty - y) < 0.002 ? 0 : requestAnimationFrame(frame);
+      };
+      area.addEventListener('pointermove', function (e) {
+        if (e.pointerType && e.pointerType !== 'mouse') return;
+        if (!box) box = area.getBoundingClientRect();
+        tx = Math.max(-1, Math.min(1, (e.clientX - box.left) / box.width * 2 - 1));
+        ty = Math.max(-1, Math.min(1, (e.clientY - box.top) / box.height * 2 - 1));
+        if (!raf) raf = requestAnimationFrame(frame);
+      }, { passive: true });
+      area.addEventListener('pointerleave', function () { tx = ty = 0; box = null; if (!raf) raf = requestAnimationFrame(frame); });
+      boxes.push(function () { box = null; });
+    };
+    var forget = function () { boxes.forEach(function (f) { f(); }); };
+    addEventListener('scroll', forget, { passive: true });
+    addEventListener('resize', forget, { passive: true });
+
+    var hero = document.querySelector('.xo .nxx-hero'), reel = hero && hero.querySelector('.xo-reel');
+    if (reel) {
+      var tag = reel.querySelector('.xo-reel-tag');
+      lean(hero, reel, 4.5, 6, tag ? function (x, y, rest) { tag.style.translate = rest ? '' : (x * 7).toFixed(1) + 'px ' + (y * 5).toFixed(1) + 'px'; } : null);
+    }
+    each('.xo .xo-ind', function (card) {
+      var img = card.querySelector('img');
+      lean(card, card, 5, 0, img ? function (x, y, rest) { img.style.translate = rest ? '' : (-x * 4).toFixed(1) + 'px ' + (-y * 4).toFixed(1) + 'px'; } : null);
+    });
+    each('.xo .nxx-job', function (card) { lean(card, card, 3.5, 0); });
+    each('.xo .nxx-floor-photo', function (fig) { lean(fig, fig, 3, 0); });
+    var talkBand = document.querySelector('.xo-talk'), talkStage = talkBand && talkBand.querySelector('.xo-talk-stage');
+    if (talkStage) lean(talkBand, talkStage, 4, 8);
+    var saysMedia = document.querySelector('.xo-says-media'), saysDev = saysMedia && saysMedia.querySelector('.nxx-device');
+    if (saysDev) lean(saysMedia, saysDev, 12, 10);
+  }
+
+  // 9. Testimonials (after lupapets.com): tabs. While the block is on screen the next quote comes by itself and the bar
+  //    under the name shows the time left; it waits while the pointer or the keyboard focus is on the block and stops for
+  //    good once the visitor picks a tab. Arrow keys move between tabs. With reduced motion nothing moves by itself.
+  var says = document.querySelector('.xo-says');
+  if (says) (function () {
+    var tabs = Array.prototype.slice.call(says.querySelectorAll('[role=tab]'));
+    var panels = tabs.map(function (t) { return document.getElementById(t.getAttribute('aria-controls')); });
+    if (tabs.length < 2 || panels.some(function (p) { return !p; })) return;
+    var DUR = 9000, cur = 0, timer = 0, left = DUR, since = 0, auto = !reduce, seen = false, held = false;
+    says.classList.add('is-js');
+    says.style.setProperty('--says-dur', DUR + 'ms');
+    var show = function (i, focus) {
+      cur = (i + tabs.length) % tabs.length;
+      tabs.forEach(function (t, k) {
+        t.setAttribute('aria-selected', String(k === cur)); t.tabIndex = k === cur ? 0 : -1;
+        panels[k].hidden = k !== cur;
+      });
+      if (focus) tabs[cur].focus();
+    };
+    var stop = function () { clearTimeout(timer); timer = 0; };
+    var run = function () {
+      stop();
+      if (!auto || !seen || held) return;
+      since = Date.now();
+      timer = setTimeout(function () { left = DUR; show(cur + 1); run(); }, left);
+    };
+    var hold = function (on) {
+      if (!auto || held === on) return;
+      if (on && timer) left = Math.max(600, left - (Date.now() - since));
+      held = on; says.classList.toggle('is-held', on);
+      if (on) stop(); else run();
+    };
+    var pick = function (i, focus) { auto = false; stop(); says.classList.remove('is-auto', 'is-held'); show(i, focus); };
+    tabs.forEach(function (t, k) {
+      t.addEventListener('click', function () { pick(k); });
+      t.addEventListener('keydown', function (e) {
+        var to = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? k + 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? k - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+        if (to === null) return;
+        e.preventDefault(); pick(to, true);
+      });
+    });
+    show(0);
+    if (!auto || !hasIO) return;
+    says.classList.add('is-auto', 'is-held'); held = true;       // the bar waits until the block is on screen
+    says.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold(true); });
+    says.addEventListener('pointerleave', function () { if (seen) hold(false); });
+    says.addEventListener('focusin', function () { hold(true); });
+    says.addEventListener('focusout', function (e) { if (seen && !says.contains(e.relatedTarget) && !says.matches(':hover')) hold(false); });
+    new IntersectionObserver(function (entries) {
+      seen = entries[0].isIntersecting;
+      if (!auto) return;
+      if (seen) { if (!says.matches(':hover') && !says.contains(document.activeElement)) hold(false); } else hold(true);
+    }, { threshold: 0.35 }).observe(says);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) hold(true); else if (seen && !says.matches(':hover')) hold(false); });
+  })();
 
 })();

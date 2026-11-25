@@ -35,7 +35,7 @@
 <link rel="stylesheet" href="/assets/theme/nx-extero-theme.css?v=0bd01b08">
 <link rel="stylesheet" href="/assets/theme/nx-extero-home.css?v=05bd329d">
 <link rel="stylesheet" href="/assets/theme/nx-polish.css?v=e7da2233">
-<link rel="stylesheet" href="/css/home.css?v=c82c51df">
+<link rel="stylesheet" href="/css/home.css?v=ed25f5cf">
 </head>
 <!--
   extero.ai homepage (task 101). Built on nx.vet's own stylesheets and scripts (verbatim copies in assets/theme/).
@@ -226,6 +226,35 @@
 </section>
 
 <!-- DESIRE: built for the floor -->
+<!-- QUOTES:start -->
+<!-- DESIRE: what customers say. Layout after lupapets.com (Lucas, 2026-11-25: "take lupa, their animations, testimonials ... as
+     an inspiration"): a framed block, one tab per person with a bar that fills while their quote is on screen, the quote
+     large at the left, the device at the right. The two quotes are the real ones from nx.vet (sections/nx-extero-home.liquid),
+     word for word: they are from veterinarians and name NxVET and NerveX. They had been left out of this generic site on
+     2026-11-23; they are back for Lucas's review. Homepage only: build.mjs leaves this block out of the industry pages.
+     Behaviour: js/site.js (9). Without JavaScript both quotes show, one under the other. -->
+<section class="xo-says" id="testimonials" aria-labelledby="xo-says-title">
+  <div class="xo-says-frame">
+    <div class="xo-says-head nxh-reveal"><h2 id="xo-says-title">What veterinarians say</h2></div>
+    <div class="xo-says-tabs" role="tablist" aria-labelledby="xo-says-title">
+      <button type="button" class="xo-says-tab" role="tab" id="xo-says-t1" aria-controls="xo-says-p1" aria-selected="true"><span class="nxh-avatar" aria-hidden="true">AD</span><span><strong>Dr. Andrea Donaldson</strong>Locum Veterinarian</span><i class="xo-says-bar" aria-hidden="true"></i></button>
+      <button type="button" class="xo-says-tab" role="tab" id="xo-says-t2" aria-controls="xo-says-p2" aria-selected="false"><span class="nxh-avatar" aria-hidden="true">HC</span><span><strong>Dr. Hans Christoffersen</strong>Animal Care Clinic</span><i class="xo-says-bar" aria-hidden="true"></i></button>
+    </div>
+    <div class="xo-says-panels">
+      <figure class="xo-says-panel" role="tabpanel" id="xo-says-p1" aria-labelledby="xo-says-t1">
+        <blockquote>“NxVET is an exciting breakthrough in how we practice veterinary medicine! It allows me to focus more on the patient and less on the paperwork.”</blockquote>
+        <figcaption><strong>Dr. Andrea Donaldson</strong>Locum Veterinarian</figcaption>
+      </figure>
+      <figure class="xo-says-panel" role="tabpanel" id="xo-says-p2" aria-labelledby="xo-says-t2">
+        <blockquote>“The team at NerveX have done an amazing job at listening to the needs of vets, and the resulting NxVET technology is extremely impressive!”</blockquote>
+        <figcaption><strong>Dr. Hans Christoffersen</strong>Animal Care Clinic</figcaption>
+      </figure>
+      <div class="xo-says-media" aria-hidden="true"><div class="nxx-device xo-says-dev" data-led="cyan"><img class="nxx-device-img" src="/assets/theme/nx-extero-device-480.webp" srcset="/assets/theme/nx-extero-device-320.webp 320w, /assets/theme/nx-extero-device-480.webp 480w" sizes="200px" width="760" height="1201" loading="lazy" decoding="async" alt=""><span class="nxx-led-base" aria-hidden="true"></span><svg class="nxx-leds" viewBox="0 0 760 1201" aria-hidden="true" focusable="false"><g class="nxx-unlit"><g transform="translate(282.6 450.3) rotate(8)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(393.6 520.0) rotate(50)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(439.7 648.7) rotate(-90)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(390.1 765.0) rotate(-45)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(263.8 806.2) rotate(10)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(144.2 728.1) rotate(56)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(106.7 596.4) rotate(-88)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g><g transform="translate(164.1 479.3) rotate(-41)"><rect class="s" x="-62" y="-42" width="124" height="84" rx="42"/><rect class="o" x="-45" y="-26" width="90" height="52" rx="26"/></g></g><g class="nxx-pill" style="--i:0" transform="translate(282.6 450.3) rotate(8)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:1" transform="translate(393.6 520.0) rotate(50)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:2" transform="translate(439.7 648.7) rotate(-90)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:3" transform="translate(390.1 765.0) rotate(-45)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:4" transform="translate(263.8 806.2) rotate(10)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:5" transform="translate(144.2 728.1) rotate(56)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:6" transform="translate(106.7 596.4) rotate(-88)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g><g class="nxx-pill" style="--i:7" transform="translate(164.1 479.3) rotate(-41)"><rect class="h" x="-58" y="-38" width="116" height="76" rx="38"/><rect class="b" x="-45" y="-26" width="90" height="52" rx="26"/><rect class="k" x="-30" y="-8" width="60" height="16" rx="8"/></g></svg></div></div>
+    </div>
+  </div>
+</section>
+<!-- QUOTES:end -->
+
 <section class="nxh-section nxx-floor" id="floor">
   <div class="nxh-wrap nxx-floor-grid">
     <figure class="nxx-floor-photo nxh-reveal">
@@ -488,7 +517,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Extero", "url": "https://extero.ai/"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is Extero?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is the AI wearable for hands-on teams. It clips on, with a microphone and a speaker built in. Take notes hands-free, talk to your team and ask AI. No phone needed."}}, {"@type": "Question", "name": "Is Extero a walkie-talkie?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Push-to-talk between staff, from the same device, on your site Wi-Fi. Messages play from its speaker."}}, {"@type": "Question", "name": "Do I need a phone?", "acceptedAnswer": {"@type": "Answer", "text": "No. Extero is battery-powered and works on your site Wi-Fi, with no phone and no pairing."}}, {"@type": "Question", "name": "Does Extero work with my software?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Use Extero with your existing software: you can send recordings anywhere with the API, webhooks or the MCP server."}}, {"@type": "Question", "name": "Who decides when it records?", "acceptedAnswer": {"@type": "Answer", "text": "Your staff. One press routes speech to the record, the team or AI. Staff control when it records."}}, {"@type": "Question", "name": "Can staff share one Extero?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Each person checks in on the device, so you still know who said what."}}, {"@type": "Question", "name": "When will my Extero ship?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is on pre-order: your order joins our next shipping batch, and we email you tracking as soon as it ships."}}, {"@type": "Question", "name": "How do I order?", "acceptedAnswer": {"@type": "Answer", "text": "On the Extero page, choose your billing period and number of devices, then continue to checkout. You enter your shipping address, pick a delivery option and pay by card on our secure Stripe checkout."}}, {"@type": "Question", "name": "Where is Extero made?", "acceptedAnswer": {"@type": "Answer", "text": "Extero is designed, assembled and tested in Canada."}}]}</script>
 <script src="/js/analytics.js?v=6c5a298e" defer></script>
-<script src="/js/site.js?v=a94b0af3" defer></script>
+<script src="/js/site.js?v=1f452d80" defer></script>
 <script src="/assets/theme/nx-extero-home.js?v=ea100799" defer></script>
 <script src="/assets/theme/nx-polish.js?v=60e5123d" defer></script>
 <script src="/js/widows.js?v=6cb4b8d7" defer></script>
