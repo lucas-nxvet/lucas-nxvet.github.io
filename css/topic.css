@@ -22,7 +22,11 @@
 
 /* ---------- Industry pages (written by _tools/make-industry-pages.mjs from _content/industries/<slug>.json) ---------- */
 /* The heading names what the visitor searched for, so it is longer than the homepage's: a little smaller */
-.xo .xo-ind-h1{font-size:clamp(34px,4.3vw,56px);line-height:1.06}
+/* The homepage heading never wraps (theme: white-space:nowrap); these headings name a search phrase and are longer, so they
+   wrap inside the text column, balanced, and stay clear of the photo */
+.nxx.xo .nxx-hero h1.xo-ind-h1,.nxx.xo .nxx-hero h1.xo-ind-h1 span{white-space:normal;text-wrap:balance}
+.nxx.xo .nxx-hero h1.xo-ind-h1{font-size:min(50px,8.4cqi);line-height:1.05;letter-spacing:-.035em}
+.nxx.xo .nxx-hero h1.xo-ind-h1 span{display:block;margin-top:.12em;font-size:.78em;line-height:1.08}
 /* The problem, in three cards */
 .xo-probs .nxh-section-head{margin-bottom:36px}
 .xo .xo-probs-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
