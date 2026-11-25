@@ -1,0 +1,21 @@
+/* Topic pages only: /walkie-talkie/ and /faq/ (written by _tools/make-topic-pages.mjs). Loaded after home.css. */
+
+/* The first section starts under the floating header */
+.xo .xo-topic-hero{padding-top:clamp(112px,11vw,140px)}
+.xo .xo-topic-top{padding-top:clamp(120px,12vw,150px)}
+.xo-talk h1{color:#fff;margin:0 0 14px;font-size:clamp(34px,4.6vw,54px);line-height:1.06;letter-spacing:-.02em}
+
+/* The page you are on, in the header, the phone menu and the footer */
+.hd-nav>a[aria-current],.hd-menu nav>a[aria-current]{color:var(--cyan-2,#1f9fb3)}
+.ft a[aria-current]{color:#fff}
+
+/* What the lights mean: the ring is drawn in the colour the device shows */
+.xo-lights .nxh-ico svg circle{fill:none;stroke-width:2.6}
+.xo-lights-note{margin:22px 0 0;color:var(--muted);font-size:16px}
+
+/* FAQ: group titles, and the link to every question under the short list */
+.xo-faq .nxh-faq-aside h1{margin:0 0 12px;color:var(--navy);font-size:clamp(34px,4.4vw,52px);line-height:1.06;letter-spacing:-.02em}
+.xo-faq-group{margin:44px 0 4px;color:var(--navy);font-size:22px;line-height:1.2;letter-spacing:-.01em}
+.xo-faq-group:first-child{margin-top:0}
+.xo-faq-all{margin:22px 0 0}
+.xo-faq-all a{font-weight:700;color:var(--navy);text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:4px}
