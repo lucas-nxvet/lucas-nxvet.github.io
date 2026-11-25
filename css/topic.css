@@ -19,3 +19,35 @@
 .xo-faq-group:first-child{margin-top:0}
 .xo-faq-all{margin:22px 0 0}
 .xo-faq-all a{font-weight:700;color:var(--navy);text-decoration:underline;text-decoration-color:var(--cyan);text-underline-offset:4px}
+
+/* ---------- Industry pages (written by _tools/make-industry-pages.mjs from _content/industries/<slug>.json) ---------- */
+/* The heading names what the visitor searched for, so it is longer than the homepage's: a little smaller */
+.xo .xo-ind-h1{font-size:clamp(34px,4.3vw,56px);line-height:1.06}
+/* The problem, in three cards */
+.xo-probs .nxh-section-head{margin-bottom:36px}
+.xo .xo-probs-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.xo .xo-probs-grid .nxh-benefit{padding:26px 24px;background:var(--bg,#f4f7fb);border-color:transparent}
+.xo .xo-probs-grid .nxh-benefit h3{margin:0 0 8px;font-size:20px;line-height:1.2;letter-spacing:-.01em;color:var(--navy)}
+/* Where it fits, and where it does not */
+.xo-fit .nxh-section-head{margin-bottom:30px}
+.xo-fit-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:stretch}
+.xo-fit-col{padding:28px 28px 26px;border-radius:12px;background:var(--bg,#f4f7fb)}
+.xo-fit-yes{background:var(--navy);color:#cdd6e6}
+.xo-fit-col h3{margin:0 0 14px;font-size:20px;line-height:1.2;color:var(--navy)}
+.xo-fit-yes h3{color:#fff}
+.xo-fit-col ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.xo-fit-col li{position:relative;padding-left:26px;font-size:17px;line-height:1.45;color:var(--muted)}
+.xo-fit-yes li{color:#cdd6e6}
+.xo-fit-col li::before{content:"";position:absolute;left:2px;top:.5em;width:10px;height:10px;border-radius:50%;background:var(--cyan)}
+.xo-fit-no li::before{background:none;border:2px solid #9aa7bd}
+/* The price, said once */
+.xo-price{padding:clamp(48px,6vw,72px) 0;background:var(--bg,#f4f7fb)}
+.xo-price-in{display:grid;grid-template-columns:minmax(0,1.5fr) auto;gap:32px;align-items:center}
+.xo-price h2{margin:0 0 10px;font-size:clamp(26px,3vw,34px);line-height:1.1;color:var(--navy)}
+.xo-price p{margin:0;max-width:62ch;font-size:18px;line-height:1.5;color:var(--muted)}
+.xo-price .nxh-product-actions{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:900px){
+  .xo .xo-probs-grid{grid-template-columns:1fr}
+  .xo-fit-grid{grid-template-columns:1fr}
+  .xo-price-in{grid-template-columns:1fr;gap:20px}
+}
