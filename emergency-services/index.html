@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero-emergency-services-poster.webp" media="(min-width: 761px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/video/hero-emergency-services-poster-480.webp" media="(max-width: 760px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/site.css?v=a776d7af">
+<link rel="stylesheet" href="/css/site.css?v=0ef26dfd">
 <link rel="stylesheet" href="/assets/theme/nx-home.css?v=b2668781">
 <link rel="stylesheet" href="/assets/theme/nx-extero-theme.css?v=0bd01b08">
 <link rel="stylesheet" href="/assets/theme/nx-extero-home.css?v=05bd329d">
@@ -283,17 +283,66 @@
 </main>
 
 <footer class="ft">
-  <div class="ft-grid">
-    <a class="ft-logo" href="/" aria-label="Extero, home"><span class="xmark" aria-hidden="true"></span></a>
-    <nav class="ft-nav" aria-label="Footer">
-      <a href="/products/extero/">Product</a>
-      <a href="#walkie-talkie">Walkie-talkie</a>
-      <a href="#industries">Industries</a>
-      <a href="#faq">FAQ</a>
-      <a href="https://nx.vet/" rel="noopener">Extero for veterinary teams</a>
-      <a href="https://nx.vet/policies/privacy-policy" rel="noopener">Privacy</a>
-    </nav>
-    <p class="ft-legal">&copy; 2026 Extero. All rights reserved.</p>
+  <div class="ft-frame">
+    <div class="ft-top">
+      <p class="ft-tag">The AI wearable for hands-on teams.</p>
+      <nav class="ft-cols" aria-label="Footer">
+        <div class="ft-col">
+          <p class="ft-col-t">Extero</p>
+          <ul>
+            <li><a href="/products/extero/">Product</a></li>
+            <li><a href="#walkie-talkie">Walkie-talkie</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col-t">Industries</p>
+          <ul>
+            <li><a href="/dentistry/">Dentistry</a></li>
+            <li><a href="/physiotherapy/">Physiotherapy</a></li>
+            <li><a href="/facilities-maintenance/">Facilities</a></li>
+            <li><a href="/healthcare/">Healthcare</a></li>
+            <li><a href="/manufacturing/">Manufacturing</a></li>
+            <li><a href="/construction/">Construction</a></li>
+            <li><a href="/emergency-services/">Emergency services</a></li>
+            <li><a href="https://nx.vet/" rel="noopener">Extero for veterinary teams</a></li>
+          </ul>
+        </div>
+        <div class="ft-col">
+          <p class="ft-col-t">Get started</p>
+          <ul>
+            <li><a href="/products/extero/">Pre-order Extero</a></li>
+            <li><a href="#" data-demo>Book a demo</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <p class="ft-bar"><span>&copy; 2026 Extero. All rights reserved.</span><a href="https://nx.vet/policies/privacy-policy" rel="noopener">Privacy</a></p>
+    <!-- The wordmark, sunk into the footer (Lucas, 2026-11-25, after lupapets.com: "the logo how it's engraved"): a darker fill,
+         a shadow under the top edges and a thin light rim on the bottom edges, all from the filter below. No glow. -->
+    <a class="ft-logo" href="/" aria-label="Extero, home">
+      <svg viewBox="0 0 917 220" aria-hidden="true" focusable="false">
+        <defs>
+          <filter id="ft-sunk" x="-2%" y="-6%" width="104%" height="112%" color-interpolation-filters="sRGB">
+            <feFlood flood-color="#000" flood-opacity=".3" result="tint"/>
+            <feComposite in="tint" in2="SourceAlpha" operator="in" result="base"/>
+            <feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>
+            <feOffset in="inv" dy="4" result="invDown"/>
+            <feGaussianBlur in="invDown" stdDeviation="3.2" result="invDownBlur"/>
+            <feFlood flood-color="#000" flood-opacity=".62"/>
+            <feComposite in2="invDownBlur" operator="in"/>
+            <feComposite in2="SourceAlpha" operator="in" result="shade"/>
+            <feOffset in="inv" dy="-1" result="invUp"/>
+            <feGaussianBlur in="invUp" stdDeviation=".55" result="invUpBlur"/>
+            <feFlood flood-color="#fff" flood-opacity=".17"/>
+            <feComposite in2="invUpBlur" operator="in"/>
+            <feComposite in2="SourceAlpha" operator="in" result="rim"/>
+            <feMerge><feMergeNode in="base"/><feMergeNode in="shade"/><feMergeNode in="rim"/></feMerge>
+          </filter>
+        </defs>
+        <image href="/assets/img/extero-wordmark-xl.webp" width="917" height="220" filter="url(#ft-sunk)"/>
+      </svg>
+    </a>
   </div>
 </footer>
 
@@ -373,7 +422,7 @@
     if (!dlg || dlg.dataset.ready) return;
     dlg.dataset.ready = '1';
     const END = (+dlg.dataset.end || 0) * 1000, KEY = 'nxBf2026';
-    if (Date.now() >= END || typeof dlg.showModal !== 'function') { dlg.remove(); if (snipe) snipe.remove(); return; }   // a cached page after the offer, or a browser without <dialog>: nothing
+    if (Date.now() >= END || typeof dlg.showModal !== 'function' || /\/black-friday/i.test(location.pathname)) { dlg.remove(); if (snipe) snipe.remove(); return; }   // a cached page after the offer, or a browser without <dialog>: nothing
     const forced = /[?&]bf=1(&|$)/.test(location.search);   // review link
     const home = dlg.hasAttribute('data-home');   // the homepage: on every visit
     const seen = () => { try { return localStorage.getItem(KEY) === '1'; } catch (_) { return false; } };
