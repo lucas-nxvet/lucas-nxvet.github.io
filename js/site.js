@@ -199,8 +199,12 @@
 
     var hero = document.querySelector('.xo .nxx-hero'), reel = hero && hero.querySelector('.xo-reel');
     if (reel) {
-      var tag = reel.querySelector('.xo-reel-tag');
-      lean(hero, reel, 4.5, 6, tag ? function (x, y, rest) { tag.style.translate = rest ? '' : (x * 7).toFixed(1) + 'px ' + (y * 5).toFixed(1) + 'px'; } : null);
+      var tag = reel.querySelector('.xo-reel-tag'), dev = reel.querySelector('.xo-reel-dev');
+      // the tag floats a little above the film, and the device (in front of both) moves the most: three depths
+      lean(hero, reel, 4.5, 6, tag || dev ? function (x, y, rest) {
+        if (tag) tag.style.translate = rest ? '' : (x * 7).toFixed(1) + 'px ' + (y * 5).toFixed(1) + 'px';
+        if (dev) dev.style.translate = rest ? '' : (x * 16).toFixed(1) + 'px ' + (y * 11).toFixed(1) + 'px';
+      } : null);
     }
     each('.xo .xo-ind', function (card) {
       var img = card.querySelector('img');

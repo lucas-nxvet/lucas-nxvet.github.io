@@ -22,6 +22,15 @@
 @keyframes xo-reel-in{from{transform:scale(1.07)}to{transform:none}}
 .xo-reel-tag{position:absolute;left:14px;bottom:14px;display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;background:rgba(255,255,255,.94);color:var(--navy);font-size:13.5px;font-weight:700;line-height:1.2}
 .xo-reel-tag i{width:8px;height:8px;border-radius:50%;background:var(--cyan);flex:none}
+/* The device in front of the film (homepage): it stays put while the photos change behind it, its ring showing a recording.
+   The frame no longer clips, so the device can stand over the corner; the film keeps the rounded corners itself. */
+.xo-reel--dev{overflow:visible;background:none}
+.xo-reel--dev>video{border-radius:12px;background:#dfe6ec}
+.xo-reel-dev{--dw:27%;position:absolute;right:-7%;bottom:-3%;z-index:1;filter:drop-shadow(0 22px 26px rgba(10,20,56,.5));pointer-events:none}
+@media (prefers-reduced-motion:no-preference){.xo-reel-dev{animation:xo-dev-in 1s var(--ease) .7s both}}
+@keyframes xo-dev-in{from{opacity:0;transform:translate3d(0,22px,0)}to{opacity:1;transform:none}}
+/* No motion wanted: every light steady green instead of the circling one */
+@media (prefers-reduced-motion:reduce){.xo-reel-dev .nxx-pill{opacity:1!important}.xo-reel-dev .nxx-sweep{opacity:0!important}}
 
 /* ---------- Three jobs: centred head on this page ---------- */
 .xo .nxx-jobs .nxh-section-head{margin-inline:auto;text-align:center}
@@ -98,6 +107,7 @@
   .nxx.xo .nxx-hero{padding:100px 0 48px}
   .nxx.xo .nxx-hero h1{font-size:min(44px,9.6cqi)}
   .xo-reel{width:min(100%,380px);min-width:0}
+  .xo-reel-dev{--dw:25%;right:-10px;bottom:-3%}
   .xo-talk-list{grid-template-columns:1fr}
   .xo-talk-unit .nxx-device{--dw:min(27vw,120px)}
   .xo-ind-grid{grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:62%;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:16px;scrollbar-width:none;margin-inline:-16px;padding:4px 16px 14px}
