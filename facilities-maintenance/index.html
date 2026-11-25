@@ -30,7 +30,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap">
 <link rel="preload" as="image" href="/assets/video/hero-facilities-maintenance-poster.webp" media="(min-width: 761px)" fetchpriority="high">
 <link rel="preload" as="image" href="/assets/video/hero-facilities-maintenance-poster-480.webp" media="(max-width: 760px)" fetchpriority="high">
-<link rel="stylesheet" href="/css/site.css?v=d78d357d">
+<link rel="stylesheet" href="/css/site.css?v=a1510aba">
 <link rel="stylesheet" href="/assets/theme/nx-home.css?v=b2668781">
 <link rel="stylesheet" href="/assets/theme/nx-extero-theme.css?v=0bd01b08">
 <link rel="stylesheet" href="/assets/theme/nx-extero-home.css?v=05bd329d">
@@ -285,7 +285,10 @@
 <footer class="ft">
   <div class="ft-frame">
     <div class="ft-top">
-      <p class="ft-tag">The AI wearable for hands-on teams.</p>
+      <div class="ft-id">
+        <a class="ft-brand" href="/" aria-label="Extero, home"><span class="xmark" aria-hidden="true"></span></a>
+        <p class="ft-tag">The AI wearable for hands-on teams.</p>
+      </div>
       <nav class="ft-cols" aria-label="Footer">
         <div class="ft-col">
           <p class="ft-col-t">Extero</p>
@@ -319,9 +322,12 @@
     </div>
     <p class="ft-bar"><span>&copy; 2026 Extero. All rights reserved.</span><a href="https://nx.vet/policies/privacy-policy" rel="noopener">Privacy</a></p>
     <!-- The wordmark, sunk into the footer (Lucas, 2026-11-25, after lupapets.com: "the logo how it's engraved"): a darker fill,
-         a shadow under the top edges and a thin light rim on the bottom edges, all from the filter below. No glow. -->
-    <a class="ft-logo" href="/" aria-label="Extero, home">
-      <svg viewBox="0 0 917 220" aria-hidden="true" focusable="false">
+         a shadow under the top edges and a thin light rim on the bottom edges, all from the filter below. No glow.
+         It lies BEHIND the links, a little transparent (Lucas, same day: "the footer is too big in height ... the logo
+         could be a little transparent and come behind the links"), so it is decoration: the home link is the regular
+         logo above the tagline. -->
+    <div class="ft-logo" aria-hidden="true">
+      <svg viewBox="0 0 917 220" focusable="false">
         <defs>
           <filter id="ft-sunk" x="-2%" y="-6%" width="104%" height="112%" color-interpolation-filters="sRGB">
             <feFlood flood-color="#000" flood-opacity=".3" result="tint"/>
@@ -342,7 +348,7 @@
         </defs>
         <image href="/assets/img/extero-wordmark-xl.webp" width="917" height="220" filter="url(#ft-sunk)"/>
       </svg>
-    </a>
+    </div>
   </div>
 </footer>
 
