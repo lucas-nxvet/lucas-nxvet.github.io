@@ -160,14 +160,8 @@
         setCap(caps[0], PHASES[0].capA); setCap(caps[1], PHASES[2].capB);
       } else {
         show(0);
-        var pauseTalk = document.createElement('button');
-        pauseTalk.type = 'button'; pauseTalk.className = 'xo-motion-control'; pauseTalk.textContent = 'Pause animation';
-        stage.parentElement.appendChild(pauseTalk);
-        pauseTalk.addEventListener('click', function () {
-          paused = !paused; clearTimeout(timer); stage.classList.toggle('is-paused', paused);
-          pauseTalk.textContent = paused ? 'Play animation' : 'Pause animation';
-          if (!paused && onScreen) tick();
-        });
+        // No pause button under the walkie-talkie scene (Lucas, 2026-11-25: "remove pause animation button"); it stops
+        // by itself off screen, and visitors who ask for reduced motion get the still picture above.
         new IntersectionObserver(function (entries) {
           clearTimeout(timer); timer = 0;
           onScreen = entries[0].isIntersecting;
