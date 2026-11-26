@@ -218,7 +218,7 @@
 /* Testimonials */
 .nxh-quotes{display:grid;grid-template-columns:1fr 1fr;gap:24px}
 .nxh-quote{margin:0;background:#fff;border-radius:var(--radius);padding:34px;border:1px solid var(--line);border-top:4px solid var(--cyan)}
-.nxh-quote blockquote{margin:0 0 24px;font-size:20px;line-height:1.5;color:var(--navy);font-weight:700}
+.nxh-quote blockquote{border-left:0;padding-left:0;margin:0 0 24px;font-size:20px;line-height:1.5;color:var(--navy);font-weight:700}
 .nxh-quote figcaption{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
 .nxh-quote figcaption strong{display:block;color:var(--navy);font-size:15px}
 .nxh-avatar{width:44px;height:44px;border-radius:50%;background:var(--navy);color:var(--cyan);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}

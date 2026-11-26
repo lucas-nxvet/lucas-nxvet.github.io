@@ -1,0 +1,22 @@
+/* Contact layout adapted from NxVET, scoped to the standalone Extero page. */
+.xec .nxh-page-hero{padding:144px 0 56px}
+.xec .nxh-page-hero .nxh-lead{margin-bottom:0;max-width:54ch}
+.xec .nxh-section{padding:56px 0 72px;background:var(--bg)}
+.xec .nxh-form-card,.xec .nxh-contact-option{border-radius:12px}
+.xec .nxh-form-card h2{margin:0 0 8px}
+#xec-context{margin:0 0 24px;color:var(--muted);line-height:1.5}
+.xec .nxh-form label{align-content:start;min-width:0}
+.xec .nxh-field input,.xec .nxh-field select,.xec .nxh-field textarea{font-size:16px;border-radius:10px}
+.xec .nxh-btn{border-radius:10px;max-width:100%;white-space:normal}
+.xec .nxh-full{grid-column:1/-1}
+.xec .nxh-field>span{display:inline;font-size:13px;color:var(--muted)}
+.xec .nxh-contact-option strong{overflow-wrap:anywhere}
+.xec button:disabled{opacity:.6;cursor:not-allowed}
+.xec-fallback{padding:16px;background:var(--bg);border-radius:10px}
+.xec-fallback p{margin:0 0 14px;font-size:14px}
+.xec-fallback .nxh-btn{margin-top:12px}
+#xec-draft-status:empty{display:none}
+#xec-draft-status{font-weight:700;color:var(--navy)}
+.xec [hidden]{display:none!important}
+@media(max-width:800px){.xec .nxh-contact-grid{grid-template-columns:1fr;gap:32px}.xec .nxh-form-card{grid-row:1}.xec .nxh-section{padding-top:32px}}
+@media(max-width:480px){.xec .nxh-form{grid-template-columns:1fr}.xec .nxh-form-card{padding:22px 18px}.xec .nxh-page-hero{padding-top:116px;padding-bottom:40px}}

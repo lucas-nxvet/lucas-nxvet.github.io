@@ -7,20 +7,20 @@
 
    Page views are sent by the tag itself. On top of them it forwards the events the pages already dispatch on
    'nxvet:analytics' (the same event bus as nx.vet, see the theme's snippets/nx-analytics.liquid):
-     demo_booking_open -> generate_lead    "Book a demo" popup opened (js/site.js). The booking itself happens inside
+     demo_booking_open -> demo_booking_open    "Book a demo" popup opened (js/site.js). The booking itself happens inside
                                            Google Calendar's frame, which a page cannot see.
      preorder_signup   -> generate_lead    pre-order list joined (product page, only while pre-orders use the list)
      select_plan       -> begin_checkout   "Continue to checkout" on the product page. The checkout itself is on nx.vet for
                                            now (CHECKOUT_ON_NXVET in build.mjs), so this is the last step this site sees;
                                            the order and the payment are counted in nx.vet's own property.
      anything else     -> same name        bf_popup_view, bf_popup_click, bf_popup_dismiss, bf_snipe_click, volume_prompt...
-   In Analytics, mark generate_lead and begin_checkout as key events; Google Ads can then import them.
+   Only verified completed lead events should be marked as lead conversions. A popup opening is intent only.
    No consent banner on this site, as on nx.vet outside a Shopify banner: the tag runs for every visitor. */
 (function () {
   'use strict';
   if (window.__xoGa) return; window.__xoGa = 1;
   var ID = 'G-CG4WH8P996';
-  var MAP = { demo_booking_open: 'generate_lead', preorder_signup: 'generate_lead', select_plan: 'begin_checkout' };
+  var MAP = { preorder_signup: 'generate_lead', select_plan: 'begin_checkout' };
   var live = /^(www\.)?extero\.ai$/i.test(location.hostname);
   var test = /[?&]ga_test=1(&|$)/.test(location.search);
   if (!live && !test) return;

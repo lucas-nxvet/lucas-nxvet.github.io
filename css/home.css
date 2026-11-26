@@ -10,6 +10,8 @@
 .nxx.xo .nxx-hero{min-height:0;padding:116px 0 56px}
 .nxx.xo .nxx-hero h1{font-size:min(58px,9.6cqi);line-height:1.02;margin-bottom:18px}
 .nxx.xo .nxx-hero .nxh-lead{margin-bottom:26px}
+/* Show the buying explanation immediately, including while the theme initializes. */
+.nxx.xo .nxx-hero .nxx-hero-inner>*,.nxx.xo .nxx-hero .nxx-hero-media{opacity:1;animation:none!important;filter:none;transform:none}
 @media (min-width:761px){
   .nxx.nxx-light.xo .nxx-hero-grid{position:relative;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:40px}
   .nxx.nxx-light.xo .nxx-hero-media{position:relative;inset:auto;z-index:1;display:flex;justify-content:center;pointer-events:auto}
@@ -123,11 +125,11 @@
 
 /* 1. Headings come into focus */
 @media (prefers-reduced-motion:no-preference){
-  .nxh-root.nxh-js.xo h2.nxh-reveal,.nxh-root.nxh-js.xo .nxh-reveal h2{filter:blur(10px);transition:opacity .8s var(--ease),transform .8s var(--ease),filter .9s var(--ease)}
+  .nxh-root.nxh-js.xo h2.nxh-reveal,.nxh-root.nxh-js.xo .nxh-reveal h2{filter:none;transition:opacity .35s var(--ease),transform .35s var(--ease)}
   .nxh-root.nxh-js.xo h2.nxh-reveal.nxh-in-view,.nxh-root.nxh-js.xo .nxh-reveal.nxh-in-view h2{filter:none}
-  .nxx.xo .nxx-hero.is-in .nxx-hero-inner>h1{animation-name:xo-focus-in;animation-duration:.9s}
+  .nxx.xo .nxx-hero.is-in .nxx-hero-inner>h1{animation-name:xo-focus-in;animation-duration:.45s}
 }
-@keyframes xo-focus-in{from{opacity:0;filter:blur(12px);transform:translateY(22px)}to{opacity:1;filter:none;transform:none}}
+@keyframes xo-focus-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;filter:none;transform:none}}
 
 /* 2. Leaning towards the pointer: the parents give the depth, the script sets "rotate" and "translate" on the element
       (two properties of their own, so the rise-in and hover transforms of the same element keep working) */
@@ -144,7 +146,7 @@
 .xo .xo-says-head h2{margin:0}
 .xo-says-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .xo-says-tab{position:relative;display:flex;align-items:center;gap:14px;min-height:88px;padding:14px 26px;border:0;border-radius:12px;overflow:hidden;background:#f3f5f9;font:inherit;font-size:14.5px;line-height:1.35;text-align:left;color:var(--muted);cursor:pointer;transition:background-color .25s}
-.xo-says-tab>span{opacity:.6;transition:opacity .25s}
+.xo-says-tab>span{opacity:1}
 .xo-says-tab strong{display:block;color:var(--navy);font-size:16.5px}
 .xo-says-tab[aria-selected=true]>span,.xo-says-tab:hover>span{opacity:1}
 .xo-says-tab:hover{background:#ebeef4}
@@ -160,14 +162,14 @@
 .xo-says-panel[hidden]{display:none}
 .xo-says.is-js .xo-says-panel{grid-row:1;min-height:430px}
 .xo-says-panel blockquote{margin:0;font-size:clamp(23px,2.65vw,36px);font-weight:600;line-height:1.24;letter-spacing:-.012em;color:var(--navy);text-wrap:pretty}
-.xo-says-panel figcaption{font-size:15px;line-height:1.4;color:var(--muted)}
-.xo-says-panel figcaption strong{display:block;color:var(--navy);font-size:17px}
+.xo-says-author{font-size:15px;line-height:1.4;color:var(--muted)}
+.xo-says-author strong{display:block;color:var(--navy);font-size:17px}
 .xo-says-media{grid-column:2;grid-row:1/span 2;position:relative;display:grid;place-items:center;min-height:360px;overflow:hidden;background:radial-gradient(62% 56% at 50% 46%,rgba(55,194,214,.2),rgba(55,194,214,0) 72%),var(--navy)}
 .xo-says-media .nxx-device{--dw:clamp(128px,14.5vw,196px);filter:drop-shadow(0 30px 34px rgba(4,8,30,.6))}
 @media (prefers-reduced-motion:no-preference){
   .xo-says.is-js .xo-says-panel:not([hidden]){animation:xo-says-in .7s var(--ease) both}
 }
-@keyframes xo-says-in{from{opacity:0;filter:blur(8px);transform:translateY(12px)}}
+@keyframes xo-says-in{from{opacity:0;transform:translateY(8px)}}
 @media (max-width:860px){
   .xo-says{padding-inline:16px}
   .xo-says-head{padding-bottom:24px}

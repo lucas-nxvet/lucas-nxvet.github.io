@@ -16,6 +16,27 @@
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
   var hasIO = 'IntersectionObserver' in window;
   var each = function (sel, fn, root) { Array.prototype.forEach.call((root || document).querySelectorAll(sel), fn); };
+  var intent = function (event, fields) { window.dispatchEvent(new CustomEvent('nxvet:analytics', { detail: Object.assign({ event: event }, fields || {}) })); };
+  // Only fixed page content and allowlisted categories enter these events, never enquiry text or contact details.
+  each('a[href*="enquiry=software"]', function (a) {
+    a.addEventListener('click', function () {
+      var industry = new URL(a.href).searchParams.get('industry');
+      var approved = ['dentistry','physiotherapy','facilities-maintenance','healthcare','manufacturing','construction','emergency-services'];
+      intent('compatibility_enquiry_open', { industry: approved.indexOf(industry) >= 0 ? industry : 'unspecified' });
+    });
+  });
+  each('.nxh-faq-list details', function (details) {
+    details.addEventListener('toggle', function () {
+      if (details.open) intent('faq_open', { question: details.querySelector('summary').textContent.trim().slice(0, 100) });
+    });
+  });
+  var example = document.getElementById('recording');
+  if (example && hasIO) {
+    var exampleObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) { intent('recording_example_view'); exampleObserver.disconnect(); }
+    }, { threshold: 0.3 });
+    exampleObserver.observe(example);
+  }
 
   // 1. Demo links
   var demoUrl = document.body.getAttribute('data-demo-url');
@@ -34,6 +55,7 @@
     dlg.innerHTML = '<div class="xbk-bar"><h2 id="XoBookingTitle">Book a 30-minute demo</h2>' +
       '<a class="xbk-ext" target="_blank" rel="noopener">Open in Google Calendar</a>' +
       '<button type="button" class="xbk-close" aria-label="Close">&times;</button></div>' +
+      '<p class="xbk-context">Meet the NxVET team behind Extero. See the device, discuss your workflow and check software compatibility.</p>' +
       '<div class="xbk-body"><p class="xbk-loading">Loading available times&hellip;</p><iframe title="Book a demo with Extero"></iframe></div>';
     dlg.querySelector('.xbk-ext').href = demoUrl;
     document.body.appendChild(dlg);
@@ -50,8 +72,8 @@
       var el = e.target.closest && e.target.closest('[data-demo], a[href*="calendar.app.google"]');
       if (!el || el.closest('#XoBooking') || e.metaKey || e.ctrlKey || e.shiftKey) return;
       e.preventDefault();
-      bookOpener = el;
-      // Counted as a lead by js/analytics.js (the same event name as nx.vet)
+      bookOpener = el.closest('details.hd-menu') ? document.querySelector('.hd-menu > summary') : el;
+      // Intent only. Opening a calendar does not establish a completed booking.
       var zone = el.closest('header, footer, section, dialog');
       window.dispatchEvent(new CustomEvent('nxvet:analytics', { detail: { event: 'demo_booking_open', placement: zone ? (zone.id || zone.className.split(' ')[0] || zone.tagName.toLowerCase()) : 'page' } }));
       if (!frame.getAttribute('src')) frame.src = EMBED;
@@ -83,12 +105,21 @@
     var small = window.matchMedia && matchMedia('(max-width: 760px)').matches;
     if (video) {
       if (small && video.getAttribute('data-poster-small')) video.poster = video.getAttribute('data-poster-small');
+      var control = document.createElement('button');
+      control.type = 'button'; control.className = 'xo-video-control';
+      control.textContent = 'Play video';
+      video.controls = false;
+      reel.appendChild(control);
+      var setControl = function () { control.textContent = video.paused ? 'Play video' : 'Pause video'; };
       var startVideo = function () {
-        video.src = (small && video.getAttribute('data-src-small')) || video.getAttribute('data-src');
-        if (reduce) { video.controls = true; return; }
-        var p = video.play(); if (p && p.catch) p.catch(function () { video.controls = true; });
+        if (!video.getAttribute('src')) video.src = (small && video.getAttribute('data-src-small')) || video.getAttribute('data-src');
+        var p = video.play(); if (p && p.catch) p.catch(setControl);
       };
-      if (document.readyState === 'complete') startVideo(); else window.addEventListener('load', startVideo);
+      control.addEventListener('click', function () { intent(video.paused ? 'video_play' : 'video_pause'); if (video.paused) startVideo(); else video.pause(); });
+      video.addEventListener('play', setControl); video.addEventListener('pause', setControl);
+      if (!reduce) {
+        if (document.readyState === 'complete') startVideo(); else window.addEventListener('load', startVideo);
+      }
       if (tag) {
         var labels = tag.getAttribute('data-labels').split('|'), shown = -1;
         video.addEventListener('timeupdate', function () {
@@ -112,10 +143,10 @@
       var PHASES = [
         { name: 'send', a: 'green', b: 'off', capA: ['Push-to-talk', 'Green ring: recording'], capB: ['Idle', 'Dark: idle and connected'], ms: 2600 },
         { name: 'wait', a: 'off', b: 'wait', capA: ['Sent', 'Dark: idle and connected'], capB: ['Cyan double pulse', 'A message is waiting'], ms: 2600 },
-        { name: 'play', a: 'off', b: 'cyan', capA: ['Sent', 'Dark: idle and connected'], capB: ['Cyan', 'A message is playing'], ms: 2800 }
+        { name: 'play', a: 'off', b: 'cyan', capA: ['Sent', 'Dark: idle and connected'], capB: ['Press to listen', 'Cyan: the message plays'], ms: 2800 }
       ];
       var setCap = function (p, t) { p.innerHTML = ''; var b = document.createElement('b'); b.textContent = t[0]; p.appendChild(b); p.appendChild(document.createTextNode(t[1])); };
-      var k = 0, timer = 0;
+      var k = 0, timer = 0, paused = false, onScreen = false;
       var show = function (i) {
         var ph = PHASES[i];
         stage.setAttribute('data-phase', ph.name);
@@ -129,9 +160,18 @@
         setCap(caps[0], PHASES[0].capA); setCap(caps[1], PHASES[2].capB);
       } else {
         show(0);
+        var pauseTalk = document.createElement('button');
+        pauseTalk.type = 'button'; pauseTalk.className = 'xo-motion-control'; pauseTalk.textContent = 'Pause animation';
+        stage.parentElement.appendChild(pauseTalk);
+        pauseTalk.addEventListener('click', function () {
+          paused = !paused; clearTimeout(timer); stage.classList.toggle('is-paused', paused);
+          pauseTalk.textContent = paused ? 'Play animation' : 'Pause animation';
+          if (!paused && onScreen) tick();
+        });
         new IntersectionObserver(function (entries) {
           clearTimeout(timer); timer = 0;
-          if (entries[0].isIntersecting) tick();
+          onScreen = entries[0].isIntersecting;
+          if (onScreen && !paused) tick();
         }, { threshold: 0.25 }).observe(stage);
       }
     }
@@ -148,20 +188,24 @@
   //    button pins it open (touch screens), a click elsewhere, a click on one of its links or Escape closes it.
   var dds = Array.prototype.slice.call(document.querySelectorAll('.hd-dd'));
   var closeDds = function (except) {
-    dds.forEach(function (d) { if (d !== except) { d.classList.remove('is-open'); d.querySelector('button').setAttribute('aria-expanded', 'false'); } });
+    dds.forEach(function (d) { if (d !== except) { d.classList.remove('is-open'); d.classList.add('is-dismissed'); d.querySelector('button').setAttribute('aria-expanded', 'false'); } });
   };
   dds.forEach(function (d) {
     var b = d.querySelector('button');
-    b.addEventListener('click', function () { var open = !d.classList.contains('is-open'); closeDds(d); d.classList.toggle('is-open', open); b.setAttribute('aria-expanded', String(open)); });
-    d.addEventListener('mouseenter', function () { b.setAttribute('aria-expanded', 'true'); });
+    b.addEventListener('click', function () { var open = !d.classList.contains('is-open'); closeDds(d); d.classList.toggle('is-open', open); d.classList.toggle('is-dismissed', !open); b.setAttribute('aria-expanded', String(open)); });
+    d.addEventListener('mouseenter', function () { d.classList.remove('is-dismissed'); b.setAttribute('aria-expanded', 'true'); });
+    d.addEventListener('focusin', function (e) { if (!d.contains(e.relatedTarget)) { d.classList.remove('is-dismissed'); b.setAttribute('aria-expanded', 'true'); } });
+    d.addEventListener('focusout', function (e) { if (!d.contains(e.relatedTarget)) closeDds(); });
     d.addEventListener('mouseleave', function () { if (!d.classList.contains('is-open')) b.setAttribute('aria-expanded', 'false'); });
-    each('a', function (a) { a.addEventListener('click', function () { closeDds(); a.blur(); }); }, d);
+    each('a', function (a) { a.addEventListener('click', function () { closeDds(); }); }, d);
   });
   if (dds.length) document.addEventListener('click', function (e) { if (!e.target.closest || !e.target.closest('.hd-dd')) closeDds(); });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    closeDds(); if (document.activeElement && document.activeElement.closest && document.activeElement.closest('.hd-dd')) document.activeElement.blur();
-    if (menu) menu.removeAttribute('open');
+    var focusedDropdown = document.activeElement.closest && document.activeElement.closest('.hd-dd');
+    if (focusedDropdown) focusedDropdown.querySelector('button').focus();
+    closeDds();
+    if (menu && menu.open) { menu.removeAttribute('open'); menu.querySelector(':scope > summary').focus(); }
   });
 
   // 8. Leaning towards the pointer (after lupapets.com; Lucas, 2026-11-25: "mouse elements moving"). The pointer's place
@@ -246,7 +290,17 @@
       held = on; says.classList.toggle('is-held', on);
       if (on) stop(); else run();
     };
-    var pick = function (i, focus) { auto = false; stop(); says.classList.remove('is-auto', 'is-held'); show(i, focus); };
+    var rotation = document.createElement('button');
+    rotation.type = 'button'; rotation.className = 'xo-motion-control xo-says-control';
+    rotation.textContent = auto ? 'Pause testimonials' : 'Play testimonials';
+    says.querySelector('.xo-says-tabs').after(rotation);
+    rotation.addEventListener('click', function () {
+      auto = !auto; left = DUR; stop();
+      rotation.textContent = auto ? 'Pause testimonials' : 'Play testimonials';
+      says.classList.toggle('is-auto', auto);
+      if (auto) { held = false; run(); } else says.classList.remove('is-held');
+    });
+    var pick = function (i, focus) { auto = false; stop(); says.classList.remove('is-auto', 'is-held'); rotation.textContent = 'Play testimonials'; show(i, focus); };
     tabs.forEach(function (t, k) {
       t.addEventListener('click', function () { pick(k); });
       t.addEventListener('keydown', function (e) {
@@ -256,8 +310,8 @@
       });
     });
     show(0);
-    if (!auto || !hasIO) return;
-    says.classList.add('is-auto', 'is-held'); held = true;       // the bar waits until the block is on screen
+    if (!hasIO) { seen = true; return; }
+    says.classList.toggle('is-auto', auto); says.classList.add('is-held'); held = true;
     says.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hold(true); });
     says.addEventListener('pointerleave', function () { if (seen) hold(false); });
     says.addEventListener('focusin', function () { hold(true); });
@@ -270,4 +324,21 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) hold(true); else if (seen && !says.matches(':hover')) hold(false); });
   })();
 
+})();
+
+// Keep promotional summaries distinct from standard pricing and expire them together.
+(function () {
+  'use strict';
+  var nodes = document.querySelectorAll('[data-xo-offer]');
+  var offer = document.querySelector('[data-bf-end], #NxBfOffer[data-end]');
+  var end = offer && Number(offer.getAttribute('data-bf-end') || offer.getAttribute('data-end')) * 1000;
+  var update = function () {
+    var active = Boolean(end && Date.now() < end);
+    nodes.forEach(function (el) {
+      el.hidden = !active;
+      el.textContent = active ? 'Black Friday: order by November 30 for the first year of Team Intelligence free. See the product page for your selected plan and renewal total.' : '';
+    });
+  };
+  update();
+  if (nodes.length) { setInterval(update, 60000); document.addEventListener('visibilitychange', update); }
 })();
